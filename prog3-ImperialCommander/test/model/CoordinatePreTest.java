@@ -143,7 +143,6 @@ public class CoordinatePreTest {
 		assertFalse(c.equals(null));
 		// equals() devuelve falso cuando le paso un objeto que no es de tipo Coordinate
 		assertFalse(c.equals(obj));
-		
 		/* Sigue comprobando lo siguiente:
 		 *  1. equals() devuelve false cuando el valor de 'x' o 'y' es distinto
 		 *  2. equals() devuelve true cuando se compara un objeto Coordinate consigo mismo
