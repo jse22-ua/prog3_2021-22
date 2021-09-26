@@ -17,8 +17,7 @@ public class Coordinate {
 	    this.y = y;
 	 }
 	 /*
-	  * hay que usar "this." porque el parámetro 'x' se llama igual que el atributo 'x', y queremos asignar al atributo
-	  * el valor del parámetro
+	  * Los atributos se llaman igual que los valores introducidos por ello se utiliza this.
 	  */
 
 	 public Coordinate(Coordinate c) {
@@ -26,7 +25,7 @@ public class Coordinate {
 	    y = c.y;
 	 }
 	 /*
-	  * no hace falta this. , no hay nombres coincidentes
+	  * Aquí no hace falta
 	  */
 
 	    
@@ -38,7 +37,7 @@ public class Coordinate {
 		return y;
 	 }
 
-	 public String to_string(){
+	 public String toString(){
 	    StringBuilder concatenation=new StringBuilder();
 	    concatenation.append("["+ x + "," + y + "]");
 	    return concatenation.toString();
@@ -55,21 +54,23 @@ public class Coordinate {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!(obj instanceof Coordinate)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		Coordinate other = (Coordinate) obj;
-		if (x != other.x)
+		if (x != other.x) {
 			return false;
-		if (y != other.y)
+		}
+		if (y != other.y) {
 			return false;
+		}
 		return true;
 	}
 
-		/*public boolean equals(Object obj) {
+	/*public boolean equals(Object obj) {
 			
 			if(obj instanceof Coordinate) {
 				
@@ -87,19 +88,22 @@ public class Coordinate {
 				return false;
 			}
 		}*/
+	
 		
 	public Coordinate add(Coordinate c){
+		
         Coordinate c_new = new Coordinate(x+c.x,y+c.y);
 	        
         return c_new;
 
 	}
-	    
 
 	public Coordinate add(int x,int y){
+		
 		Coordinate c_new = new Coordinate(this.x+x, this.y+y);
 	                                           
 	    return c_new;
+	    
 	}
 
 }

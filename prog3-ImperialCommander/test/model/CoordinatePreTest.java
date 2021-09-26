@@ -149,6 +149,5 @@ public class CoordinatePreTest {
 		 *  3. equals() devuelve true cuando comparo dos objetos Coordinate distintos
 		 *     y los valores de sus componentes respectivos son iguales.
 		 */
-		fail ("Completa el test equals()");
 	}
 }
