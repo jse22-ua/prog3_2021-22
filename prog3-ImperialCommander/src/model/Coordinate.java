@@ -5,7 +5,7 @@ package model;
  * @author Judit Serrano Espinosa,74379872B
  *
  */
-public class Coordinate {
+public class Coordinate implements Comparable<Coordinate>{
 	 private int x;
 	 private int y;
 	 /*
@@ -87,4 +87,20 @@ public class Coordinate {
 	    
 	}
 
+	@Override
+	public int compareTo(Coordinate otra) {
+		int Comparado=0;
+		
+		Comparado=x-otra.x;
+		
+		if(Comparado==0) {
+				Comparado=y-otra.y;
+		}
+		return Comparado;
+	}
+	
+	
+	
+
+	
 }
