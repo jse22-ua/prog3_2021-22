@@ -69,25 +69,6 @@ public class Coordinate {
 		}
 		return true;
 	}
-
-	/*public boolean equals(Object obj) {
-			
-			if(obj instanceof Coordinate) {
-				
-				Coordinate other=(Coordinate)obj;
-				
-				if(this.x==other.x && this.y==other.y) {
-					
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
-			else {
-				return false;
-			}
-		}*/
 	
 		
 	public Coordinate add(Coordinate c){
