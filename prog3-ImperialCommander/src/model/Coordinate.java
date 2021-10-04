@@ -1,7 +1,9 @@
 package model;
 
+import java.util.Set;
+
 /**
- * Práctica 1
+ * Practica 1
  * @author Judit Serrano Espinosa,74379872B
  *
  */
@@ -25,7 +27,7 @@ public class Coordinate implements Comparable<Coordinate>{
 	    y = c.y;
 	 }
 	 /*
-	  * Aquí no hace falta
+	  * Aqui no hace falta
 	  */
 
 	    
@@ -99,7 +101,9 @@ public class Coordinate implements Comparable<Coordinate>{
 		return Comparado;
 	}
 	
-	
+	public Set<Coordinate> getNeighborhood(){
+		Set<Coordinate> Neighborhood= new HashSet<Coordinate>();
+	}
 	
 
 	
