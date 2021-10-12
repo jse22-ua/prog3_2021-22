@@ -1,6 +1,9 @@
 package model;
 
 import java.util.Set;
+import java.util.TreeSet;
+
+import restroom.Coordinate;
 
 /**
  * Practica 1
@@ -101,8 +104,18 @@ public class Coordinate implements Comparable<Coordinate>{
 		return Comparado;
 	}
 	
-	public Set<Coordinate> getNeighborhood(){
-		Set<Coordinate> Neighborhood= new HashSet<Coordinate>();
+	public Set<Coordinate> getNeighborhood(){//Calcula las coordenadas 
+		Set<Coordinate> Neighborhood= new TreeSet<Coordinate>();
+		Neighborhood.add(new Coordinate(this.x+1,this.y+1));
+		Neighborhood.add(new Coordinate(this.x+1,this.y));
+		Neighborhood.add(new Coordinate(this.x+1,this.y-1));
+		Neighborhood.add(new Coordinate(this.x,this.y+1));
+		Neighborhood.add(new Coordinate(this.x,this.y-1));
+		Neighborhood.add(new Coordinate(this.x-1,this.y+1));
+		Neighborhood.add(new Coordinate(this.x-1,this.y));
+		Neighborhood.add(new Coordinate(this.x-1,this.y-1));
+
+		return Neighborhood;
 	}
 	
 
