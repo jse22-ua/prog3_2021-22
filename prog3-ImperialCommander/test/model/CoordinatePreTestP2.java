@@ -44,14 +44,18 @@ public class CoordinatePreTestP2 {
  	y mismo valor para la Y*/
 	@Test
 	public final void testCompareTo3() {
-		fail("completa el test");
+		c2=new Coordinate(3,9);
+		assertTrue(c1.compareTo(c2)<0);
+		assertTrue(c2.compareTo(c1)>0);
 	}
 	
 	/* Comprueba compareTo para dos coordenadas con mismo valor para la X 
  	y mismo valor para la Y*/
 	@Test
 	public final void testCompareTo5() {
-		fail("completa el test");
+		c2=new Coordinate(3,5);
+		assertTrue(c1.compareTo(c2)==0);
+		assertTrue(c2.compareTo(c1)==0);
 	}
 	
 	/* Comprueba los vecinos a la coordenada [3,5] y que las Coordenadas
