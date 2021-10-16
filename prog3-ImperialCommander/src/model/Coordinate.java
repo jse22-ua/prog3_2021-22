@@ -3,8 +3,6 @@ package model;
 import java.util.Set;
 import java.util.TreeSet;
 
-import restroom.Coordinate;
-
 /**
  * Practica 1
  * @author Judit Serrano Espinosa,74379872B

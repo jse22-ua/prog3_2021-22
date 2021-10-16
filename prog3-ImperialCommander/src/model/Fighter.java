@@ -12,17 +12,32 @@ public class Fighter {
 	Side side;
 	
 	Fighter(String type, Ship mother) {
+		id=nextId;
 		velocity=100;
 		attack=80;
 		shield=80;
 		this.type=type;
 		this.mother=mother;
 		position=null;
+		side=mother.getSide();
 		
 	}
 	
+	
+	public Coordinate getPosition() {
+		return position;
+	}
+
+
 	public Fighter (Fighter f) {
-		Fighter f_new=new Fighter(f);
+		type=f.type;
+		attack=f.attack;
+		id=f.id;
+		shield=f.shield;
+		velocity=f.velocity;
+		mother=f.mother;
+		position=f.position;
+		side=f.getSide();
 	}
 	
 	public static void resetNextId() {
@@ -72,6 +87,7 @@ public class Fighter {
 	public void addShield(int shield) {
 		this.shield += shield;
 	}
+	
 	public boolean isDestroyed() {
 		boolean destroyed=false;
 		
@@ -85,7 +101,7 @@ public class Fighter {
 	public int getDamage(int n,Fighter enemy) {
 		int damage;
 		
-		damage=(n*enemy.attack)/300;
+		damage=(n*attack)/300;
 		
 		return damage;
 	}
@@ -102,65 +118,23 @@ public class Fighter {
 		return "(" + type + " " + id + " " + side + " " + pos
 				+ " {" + velocity + "," + attack + "," + shield + "})";
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + attack;
-		result = prime * result + id;
-		result = prime * result + ((mother == null) ? 0 : mother.hashCode());
-		result = prime * result + ((position == null) ? 0 : position.hashCode());
-		result = prime * result + shield;
-		result = prime * result + ((side == null) ? 0 : side.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + velocity;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Fighter other = (Fighter) obj;
-		if (attack != other.attack)
-			return false;
-		if (id != other.id)
-			return false;
-		if (mother == null) {
-			if (other.mother != null)
-				return false;
-		} else if (!mother.equals(other.mother))
-			return false;
-		if (position == null) {
-			if (other.position != null)
-				return false;
-		} else if (!position.equals(other.position))
-			return false;
-		if (shield != other.shield)
-			return false;
-		if (side != other.side)
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		if (velocity != other.velocity)
-			return false;
-		return true;
-	}
 	
-	public int fight(Fighter enemy){
-		if(enemy.isDestroyed()||this.isDestroyed()) {
-			return 0;
+	public int fight(Fighter enemy) {
+		int destroyed=0,n, umbral;
+		umbral=100*velocity/(velocity+enemy.velocity);
+		while(shield>0 && enemy.shield>0) {
+			n=RandomNumber.newRandomNumber(100);
+			if(umbral<=n) {
+				enemy.shield-=getDamage(n, enemy);
+				destroyed=1;
+			}
+			else {
+				shield-=enemy.getDamage(100-n, enemy);
+				destroyed=-1;
+			}
 		}
-		else {
-			RandomNumber randomNumber=new RandomNumber();
-		}
+		return destroyed;
 	}
+
+	
 }
