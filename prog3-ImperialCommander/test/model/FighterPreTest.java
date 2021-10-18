@@ -193,8 +193,13 @@ public class FighterPreTest {
 		 * cambia los valores de los atributos del fighter y comprueba 
 		 * que en toString se reflejan los cambios
 		 */
-		
-		fail("completa el test");
+		Coordinate p= new Coordinate(2,3);
+		fighter.addVelocity(20);
+		fighter.addAttack(-50);
+		fighter.addShield(-10);
+		fighter.setPosition(p);
+		final String sout="(XWing 1 REBEL [2,3] {120,30,70})";
+		assertEquals(sout, fighter.toString());
 	}
 	
 	
