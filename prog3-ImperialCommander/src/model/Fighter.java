@@ -74,6 +74,11 @@ public class Fighter {
 		return side;
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
 	public void setPosition(Coordinate p) {
 		position=p;
 	}

@@ -1,6 +1,8 @@
 package mains;
 
 import model.Coordinate;
+import model.Ship;
+import model.Side;
 
 public class MainP1 {
 
@@ -10,7 +12,7 @@ public class MainP1 {
 		Coordinate c3 = c1.add(3,1);
 		Coordinate c4 = c1.add(c2);
 		Coordinate c6 = new Coordinate(-70,-2);
-		Fighter 
+		Ship s=new Ship("Som",Side.IMPERIAL);
 		
 		System.out.println("c1="+c1);
 		System.out.println("c2="+c2);
