@@ -1,5 +1,7 @@
 package mains;
 
+import static org.junit.Assert.assertNull;
+
 import model.Coordinate;
 import model.Ship;
 import model.Side;
@@ -13,13 +15,17 @@ public class MainP1 {
 		Coordinate c4 = c1.add(c2);
 		Coordinate c6 = new Coordinate(-70,-2);
 		Ship s=new Ship("Som",Side.IMPERIAL);
+		s.addFighters("65/Xwing:10/Awing:30/Ywing:35/TIEBomber");
+		System.out.println(s.myFleet());
+		s.updateResults(1);
+		
 		
 		System.out.println("c1="+c1);
 		System.out.println("c2="+c2);
 		System.out.println("c3="+c3);
 		System.out.println("c4="+c4);
 		System.out.println("c6="+c6);
-		System.out.println(c6.getX());
-		System.out.println(c6.getY());
-	}	
+		System.out.println(s.getWins());
+		System.out.println(s.getLosses());
+	}
 }

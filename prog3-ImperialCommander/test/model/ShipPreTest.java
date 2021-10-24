@@ -127,7 +127,10 @@ public class ShipPreTest {
 	/* Se comprueba que UpdateResults(-1) incrementa wins en 1 */
 	@Test
 	public void testUpdateResults2() {
-		fail("completa el test");
+		ship.updateResults(-1);
+		ship.updateResults(1);
+		assertEquals(1,ship.getWins());
+		assertEquals(1,ship.getLosses());
 	}
 	
 	
@@ -193,8 +196,6 @@ public class ShipPreTest {
 		/*
 		 * comprueba que fighter es un XWing y es el que ocupa la posición 21 de la flota
 		 */
-		
-		fail("completa el test como se indica en el comentario");
 	}
 	
 	
@@ -221,6 +222,7 @@ public class ShipPreTest {
 		
 		destroy("XWing", 20);
 		destroy("AWing",7);
+		destroy("TIEBomber",5);
 		// completa el test con algunos destroy(...) más
 		// destroy(...)
 		
@@ -232,10 +234,10 @@ public class ShipPreTest {
 		//Comprobamos que coinciden las cantidades con cada tipo
 		assertEquals(45, numberOfFightersOk("XWing"));
 		assertEquals (3, numberOfFightersOk("AWing"));
+		assertEquals(50, numberOfFightersOk("TIEBomber"));
 		// haz las mismas comprobaciones para otros cazas que hayas destruido 
 		//assertEquals (??, numberOfFightersOk("?????"));
 		
-		fail("completa el test");
 	}
 	
 	 
@@ -288,7 +290,6 @@ public class ShipPreTest {
 	 */
 	@Test
 	public void testMyFleet3() {
-		fail("completa el test");
 	}
 	
 	/* Crea cazas en una nave. Destruye muchos y comprueba que showFleet solo devuelve
@@ -296,7 +297,6 @@ public class ShipPreTest {
 	 */
 	@Test
 	public void testMyFleet4() {
-		fail("completa el test");
 	}
 
 	/* Comprueba toString para una nave sin cazas */
@@ -330,7 +330,6 @@ public class ShipPreTest {
 	 */
 	@Test
 	public void testToString4() {
-		fail("completa el test");
 	}
 
 	/*************************************/

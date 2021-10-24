@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Practica 1
+ * @author Judit Serrano Espinosa,74379872B
+ *
+ */
 public class Fighter {
 	private String type;
 	private int velocity;
@@ -10,7 +15,16 @@ public class Fighter {
 	private Coordinate position;
 	private Ship mother;
 	Side side;
-	
+	/*
+	 * @param type el tipo del caza
+	 * @param velocity su velocidad
+	 * @param attack su ataque
+	 * @param shield su defensa
+	 * @param id su numero de identificación
+	 * @param position la posición del tablero en la que se encuentra
+	 * @param Ship su flota
+	 * @param Side grupo de la flota a la que pertenece
+	 */
 	Fighter(String type, Ship mother) {
 		id=nextId;
 		velocity=100;
@@ -24,12 +38,16 @@ public class Fighter {
 		
 	}
 	
-	
+	/*
+	 * @return la posicion del caza
+	 */
 	public Coordinate getPosition() {
 		return position;
 	}
 
-
+	/*
+	 * Crea una copia de un objeto Fighter
+	 */
 	public Fighter (Fighter f) {
 		type=f.type;
 		attack=f.attack;
@@ -41,41 +59,58 @@ public class Fighter {
 		side=f.getSide();
 	}
 	
+	/*
+	 * Hace que NextId vuelva a valer 1
+	 */
 	public static void resetNextId() {
 		nextId=1;
 		
 	}
 	
+	/*
+	 * @return el tipo del caza
+	 */
 	public String getType() {
 		return type;
 	}
 	
+	/*
+	 * @return la velocidad del caza
+	 */
 	public int getVelocity() {
 		return velocity;
 	}
 	
+	/*
+	 * @return el ataque que puede hacer el caza
+	 */
 	public int getAttack() {
 		return attack;
 	}
 	
+	/*
+	 * @return la defensa del caza
+	 */
 	public int getShield() {
 		return shield;
 	}
 	
+	/*
+	 * @return el identificador del caza
+	 */
 	public int getId() {
 		return id;
 	}
 	
+	/*
+	 * @return la flota a la que pertenece
+	 */
 	public Ship getMotherShip() {
 		return mother;
 	}
 	
 	public Side getSide() {
 		return side;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
 	}
 
 
@@ -100,11 +135,10 @@ public class Fighter {
 
 	public void addShield(int shield) {
 		this.shield += shield;
-		if(this.shield<0) {
-			this.shield=0;
-		}
 	}
-	
+	/*
+	 * @return true si el caza ha sido destruido y falso si no lo ha sido
+	 */
 	public boolean isDestroyed() {
 		boolean destroyed=false;
 		
@@ -115,6 +149,9 @@ public class Fighter {
 		return destroyed;
 	}
 	
+	/*
+	 * @return el damage que puede hacer el caza. Calculado a partir de un numero aleatorio y su ataque
+	 */
 	public int getDamage(int n,Fighter enemy) {
 		int damage;
 		
@@ -122,7 +159,10 @@ public class Fighter {
 		
 		return damage;
 	}
-
+	
+	/*
+	 * @retrun un String con las caracteristicas del caza
+	 */
 	@Override
 	public String toString() {
 		String pos;
@@ -136,6 +176,11 @@ public class Fighter {
 				+ " {" + velocity + "," + attack + "," + shield + "})";
 	}
 	
+	/*
+	 * Hace que dos cazas se pongan a pelear a partir de sus velocidades y de numeros aleatorios
+	 * @return 0 se cuando alguno de los cazas ya estaba destruido al empezar el metodo
+	 * @return 1 si gana nuestro caza y -1 si gana el caza enemigo
+	 */
 	public int fight(Fighter enemy) {
 		int destroyed=0,n, umbral;
 		umbral=100*velocity/(velocity+enemy.velocity);
@@ -169,7 +214,10 @@ public class Fighter {
 		return result;
 	}
 
-
+	/*
+	 * comprueba que dos objetos son iguales
+	 * @return true si esos dos objetos son iguales y false si no lo son
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

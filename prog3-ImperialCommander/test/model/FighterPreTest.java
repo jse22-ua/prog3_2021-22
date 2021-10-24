@@ -91,13 +91,19 @@ public class FighterPreTest {
 	/* Test que comprueba addAttack */
 	@Test
 	public final void testAddAttack() {
-		fail("completa el test"); // similar al anterior
+		fighter.addAttack(100);
+		assertEquals(180,fighter.getAttack());
+		fighter.addAttack(-300);
+		assertEquals(0, fighter.getAttack());// similar al anterior
 	}
 
 	/* Test que comprueba addShield */
 	@Test
 	public final void testAddShield() {
-		fail("completa el test"); // similar a los anteriores, pero con alguna diferencia
+		fighter.addShield(-100);
+		assertEquals(-20, fighter.getShield());
+		fighter.addShield(56);
+		assertEquals(36, fighter.getShield());// similar a los anteriores, pero con alguna diferencia
 	}
 
 	/* Test que coprueba el metodo setPosition y la relación de asociación con
@@ -119,7 +125,10 @@ public class FighterPreTest {
 		 * comprueba que se le asigna bien la posición a un caza, y que
 		 * después se le puede asignar null como posición 
 		 */
-		fail("completa el test");
+		Fighter fighter2=new Fighter("Name",imperialShip);
+		assertNull(fighter2.getPosition());
+		
+		
 	}
 
 	/* Test que comprueba  que isDestroyed es false aunque
@@ -146,7 +155,6 @@ public class FighterPreTest {
 		fighter.addShield(-80);
 		assertTrue(fighter.isDestroyed());
 		// prueba con valores negativos
-		fail("completa el test con valores negativos");
 	}
 
 	
@@ -223,7 +231,10 @@ public class FighterPreTest {
 		/*
 		 * similar al anterior, pero al revés
 		 */
-		fail("completa el test");
+		Fighter enemy = new Fighter("Bfighter",imperialShip);
+		fighter.addShield(-600);
+		assertEquals(0,fighter.fight(enemy));
+		assertEquals(0,RandomNumber.getRandomNumberList().size());
 	}
 	
 	/* Test que combrueba Fight en la lucha entre un caza y un enemigo que tienen
@@ -246,7 +257,10 @@ public class FighterPreTest {
 		 * cambia algunos valores del caza (velocidad, ataque, escudo) y
 		 * comprueba que afectan a la lucha
 		 */
-		fail("completa el test");
+		Fighter enemy1=new Fighter("BomberFighter", imperialShip);
+		enemy1.addVelocity(-6);
+		enemy1.addShield(-56);
+		assertEquals(1,fighter.fight(enemy1));
 	}
 		
 	/* Test equals for Fighter

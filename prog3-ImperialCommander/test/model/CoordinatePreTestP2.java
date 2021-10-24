@@ -2,7 +2,6 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Set;
 
@@ -12,7 +11,9 @@ import org.junit.Test;
 public class CoordinatePreTestP2 {
 	Coordinate c1, c2;
 	final String kNeigborhood1 []= {"[2,4]","[2,5]","[2,6]","[3,4]","[3,6]",
-			"[4,4]","[4,5]","[4,6]"}; //Coordenadas ordenadas
+			"[4,4]","[4,5]","[4,6]"};
+	final String kNeighborhood2 []= {"[-1,-1]","[-1,0]","[-1,1]","[0,-1]","[0,1]","[1,-1]","[1,0]","[1,1]"};
+	//Coordenadas ordenadas
 	// final String kNeigborhood2 []= { ... }; 
 			
 	
@@ -76,7 +77,13 @@ public class CoordinatePreTestP2 {
 	@Test
 	public final void testNeighborhood2() {
 		// completa el test, es similar al anterior, pero usando c2 y la cadena kNeighborhood2
-		fail("completa el test");
+		Set<Coordinate> lcoord= c2.getNeighborhood();
+		assertEquals(kNeighborhood2.length,lcoord.size());
+		int i=0;
+		for(Coordinate c: lcoord) {
+			assertEquals(kNeighborhood2[i],c.toString());
+			i++;
+		}
 	}
 
 }
