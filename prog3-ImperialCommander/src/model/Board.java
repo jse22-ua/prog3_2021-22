@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Practica 1
@@ -16,58 +17,58 @@ public class Board {
  
 	public Board(int size) {
 		this.size=size;
-		board= new HashMap<Coordinate,Fighter>();
+		board = new HashMap<Coordinate,Fighter>();
 	}
+	
 	public Fighter getFighter(Coordinate c) {
 		Objects.requireNonNull(c);
-		Fighter f=board.get(c);
-		return f;
+		if(board.containsKey(c)) {
+			return new Fighter(board.get(c));
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public int getSize() {
 		return size;
 	}
 	
-	public boolean removeFighter(Fighter f) {
+	public boolean removeFighter(Fighter f) {	
+		Objects.requireNonNull(f);
 		boolean removed=false;
-		Set<Coordinate> coordinates=board.keySet();
-		for(Coordinate c : coordinates) {
-			Fighter f2 = board.get(c);
-			if(f.getPosition().equals(f2.getPosition())) {
-				removed=true;
-				board.remove(c);
+
+		if(board.containsValue(f)) {
+			Coordinate c = new Coordinate(f.getPosition());
+			if(board.containsKey(c)&&board.get(c).equals(f)) {
+					board.remove(c,f);
+					f.setPosition(null);
+					removed=true;
 			}
 		}
 		return removed;
 	}
 	public boolean inside(Coordinate c) {
 		Objects.requireNonNull(c);
-		if(board.isEmpty()) {
+		if(c.equals(null)){
 			return false;
 		}
+		else if(c.getX()>=0&&c.getY()>=0&&c.getX()<=size-1&&c.getY()<=size-1) {
+				return true;
+		}
 		else {
-			int r=0;
-			Map.Entry<Coordinate,Fighter> entry = board.entrySet().iterator().next();
-			Coordinate coord= entry.getKey();
-			r=c.compareTo(coord);
-			if(r>0) {
-				 return true;
-			}
-			else {
-				return false;
-			}
+			return false;
 		}
 	}
 	
 	public Set<Coordinate> getNeighborhood(Coordinate c){
 		Objects.requireNonNull(c);
-		Set<Coordinate> Cboard= board.keySet();
-		Set<Coordinate> Coord = c.getNeighborhood();
-		for(Coordinate cboard: Cboard) {
-			for(Coordinate coord: Coord) {
-				if(cboard.compareTo(coord)<0) {
-					Coord.remove(coord);
-				}
+		
+		Set<Coordinate> Coord = new TreeSet<Coordinate>();
+		Set<Coordinate> Coordinates=c.getNeighborhood();
+		for(Coordinate cord: Coordinates) {
+			if(inside(cord)) {
+				Coord.add(cord);
 			}
 		}
 		return Coord;
@@ -78,9 +79,19 @@ public class Board {
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(f);
 		if(inside(c)) {
-			if(board.get(c)!=null&& !board.get(c).getSide().equals(f.getSide())) {
+			if(board.get(c)!=null&& board.get(c).getSide()!=f.getSide()) {
 				r=f.fight(board.get(c));
 				f.getMotherShip().updateResults(r);
+				board.get(c).getMotherShip().updateResults(r*-1);
+				if(r==1) {
+					board.get(c).setPosition(null);
+					board.remove(c);
+					f.setPosition(c);
+					board.put(c,f);
+				}
+			}
+			else if(board.get(c)!=null&&board.get(c).getSide()==f.getSide()) {
+				
 			}
 			else {
 				board.put(c,f);
@@ -95,12 +106,21 @@ public class Board {
 		if(board.containsValue(f)) {
 			 Set<Coordinate> Coord= getNeighborhood(f.getPosition());
 			 for(Coordinate Coordenada: Coord) {
-				 if(inside(Coordenada)) {
+				 Fighter fenemy=board.get(Coordenada);
 					 if(board.get(Coordenada)!=null && !board.get(Coordenada).getSide().equals(f.getSide())) {
-						 int r=f.fight(board.get(Coordenada));
+						 int r=f.fight(fenemy);
+						 fenemy.getMotherShip().updateResults(r*-1);
 						 f.getMotherShip().updateResults(r);
+						 if(r==1) {
+							 fenemy.setPosition(null);
+							 board.remove(Coordenada);
+							 
+						 }
+						 else {
+							 board.remove(f.getPosition());
+							 f.setPosition(null);
+						 }
 						 
-					 }
 				 }
 			 }
 			 f.getMotherShip().purgeFleet();

@@ -84,7 +84,7 @@ public class Ship {
 		for(int i=0;i<ships.length;i++){
 			String[] partes=ships[i].split("\\/");
 			for(int j=0;j<Integer.parseInt(partes[0]);j++) {
-				Fighter f=new Fighter(partes[1],new Ship(name,side));
+				Fighter f=new Fighter(partes[1],this);
 				fleet.add(f);
 			}
 		}
@@ -94,10 +94,10 @@ public class Ship {
 	 * Contabiliza las perdidas y victorias dependiedo de si r es positivo o negativo
 	 */
 	public void updateResults(int r) {
-		if(r<0) {
+		if(r==-1) {
 			losses++;
 		}
-		else if(r>0) {
+		else if(r==1) {
 			wins++;
 		}
 	}
@@ -105,27 +105,32 @@ public class Ship {
 	 * Te devuelve el primer caza del tipo del String pasado por valor
 	 */
 	public Fighter getFirstAvailableFighter(String t) {
+		boolean founded=false;
+		Fighter f= new Fighter(t,new Ship(name,side));
 		if(fleet.size()==0) {
 			return null;
 		}
-		else if(t==" ") {
-			return fleet.get(1);
+		else if(t=="") {
+			for(int i=0; i<fleet.size()&&!founded;i++) {
+				if(!fleet.get(i).isDestroyed()) {
+					founded=true;
+					f=fleet.get(i);	
+				}
+			}
 		}
 		else{
-			boolean founded=false;
-			Fighter f= new Fighter(t,new Ship(name,side));
 			for(int i=0;i<fleet.size()&&!founded;i++) {
-				if(t.equals(fleet.get(i).getType())) {
+				if(t.equals(fleet.get(i).getType())&&!fleet.get(i).isDestroyed()) {
 					founded=true;
 					f= fleet.get(i);
 				}
 			}
-			if(founded) {
-				return f;
-			}
-			else {
-				return null;
-			}
+		}
+		if(founded) {
+			return f;
+		}
+		else {
+			return null;
 		}
 		
 	}
@@ -133,9 +138,15 @@ public class Ship {
 	 * Elimina los cazas destruidos
 	 */
 	public void purgeFleet() {
-		for(int i=0;i<fleet.size();i++) {
-			if(fleet.get(i).isDestroyed()) {
-				fleet.remove(i);
+		if(!fleet.isEmpty()) {
+			int i=0;
+			while(i!=fleet.size()) {
+				if(fleet.get(i).isDestroyed()) {
+					fleet.remove(i);
+				}
+				else {
+					i++;
+				}
 			}
 		}
 	}
@@ -162,7 +173,7 @@ public class Ship {
 	public String myFleet() {
 		StringBuilder concatenation = new StringBuilder();
 		List<String> tipos= new ArrayList<>();
-
+		
 		for(int i=0;i<fleet.size();i++) {
 			if(tipos.isEmpty()) {
 				tipos.add(fleet.get(i).getType());
@@ -176,13 +187,15 @@ public class Ship {
 		for(String tipo: tipos) {
 			int contador=0;
 			for(int j=0;j<fleet.size();j++) {
-				if(tipo.equals(fleet.get(j).getType())) {
+				if(tipo.equals(fleet.get(j).getType())&&!fleet.get(j).isDestroyed()) {
 					contador++;
 				}
 			}
-			concatenation.append(contador +"/" + tipo);
-			if(!tipo.equals(tipos.get(tipos.size()-1))) {
-				concatenation.append(":");
+			if(contador!=0) {
+				if(!tipo.equals(tipos.get(0))) {
+					concatenation.append(":");
+				}
+				concatenation.append(contador +"/" + tipo);
 			}
 		}
 		

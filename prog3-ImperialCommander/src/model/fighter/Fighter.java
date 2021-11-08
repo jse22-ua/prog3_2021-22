@@ -1,12 +1,11 @@
-package model;
+package model.fighter;
 
 /**
  * Practica 1
  * @author Judit Serrano Espinosa,74379872B
  *
  */
-public class Fighter {
-	private String type;
+public abstract class Fighter {
 	private int velocity;
 	private int attack;
 	private int shield;
@@ -25,19 +24,20 @@ public class Fighter {
 	 * @param Ship su flota
 	 * @param Side grupo de la flota a la que pertenece
 	 */
-	Fighter(String type, Ship mother) {
+	protected Fighter(Ship mother) {
 		id=nextId;
 		velocity=100;
 		attack=80;
 		shield=80;
-		this.type=type;
 		this.mother=mother;
 		position=null;
 		side=mother.getSide();
 		nextId++;
+	
 		
 	}
-	
+	public abstract Fighter copy();
+	public abstract int getSymbol();
 	/*
 	 * @return la posicion del caza
 	 */
@@ -48,8 +48,7 @@ public class Fighter {
 	/*
 	 * Crea una copia de un objeto Fighter
 	 */
-	public Fighter (Fighter f) {
-		type=f.type;
+	protected Fighter (Fighter f) {
 		attack=f.attack;
 		id=f.id;
 		shield=f.shield;
@@ -71,7 +70,7 @@ public class Fighter {
 	 * @return el tipo del caza
 	 */
 	public String getType() {
-		return type;
+		return getClass().getSimpleName();
 	}
 	
 	/*
@@ -172,7 +171,7 @@ public class Fighter {
 		else {
 			pos=position.toString();
 		}
-		return "(" + type + " " + id + " " + side + " " + pos
+		return "(" + getType() + " " + id + " " + side + " " + pos
 				+ " {" + velocity + "," + attack + "," + shield + "})";
 	}
 	
@@ -209,7 +208,7 @@ public class Fighter {
 		result = prime * result + ((position == null) ? 0 : position.hashCode());
 		result = prime * result + shield;
 		result = prime * result + ((side == null) ? 0 : side.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
 		result = prime * result + velocity;
 		return result;
 	}
@@ -245,10 +244,10 @@ public class Fighter {
 			return false;
 		if (side != other.side)
 			return false;
-		if (type == null) {
-			if (other.type != null)
+		if (getType() == null) {
+			if (other.getType()!= null)
 				return false;
-		} else if (!type.equals(other.type))
+		} else if (!getType().equals(other.getType()))
 			return false;
 		if (velocity != other.velocity)
 			return false;
