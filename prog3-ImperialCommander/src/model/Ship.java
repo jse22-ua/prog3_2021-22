@@ -106,7 +106,7 @@ public class Ship {
 	 */
 	public Fighter getFirstAvailableFighter(String t) {
 		boolean founded=false;
-		Fighter f= new Fighter(t,new Ship(name,side));
+		Fighter f= new Fighter(t,this);
 		if(fleet.size()==0) {
 			return null;
 		}

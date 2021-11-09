@@ -1,5 +1,10 @@
 package model.fighter;
 
+import model.Coordinate;
+import model.RandomNumber;
+import model.Ship;
+import model.Side;
+
 /**
  * Practica 1
  * @author Judit Serrano Espinosa,74379872B

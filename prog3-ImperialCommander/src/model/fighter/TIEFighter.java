@@ -2,13 +2,12 @@ package model.fighter;
 
 import model.Ship;
 
-public class YWing extends Fighter{
-	
-	public YWing(Ship mother) {
+public class TIEFighter extends Fighter{
+	public TIEFighter(Ship mother) {
 		super(mother);
-		addVelocity(-20);
-		addAttack(-10);
-		addShield(30);
+		addVelocity(10);
+		addAttack(5);
+		addShield(10);
 	}
 
 	@Override
