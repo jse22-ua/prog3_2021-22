@@ -9,16 +9,20 @@ public class XWing extends Fighter{
 		addVelocity(10);
 		addAttack(20);
 	}
+	
+	private XWing(XWing f) {
+		super(f);
+	}
 
 	@Override
 	public Fighter copy() {
 		// TODO Auto-generated method stub
-		return null;
+		return new XWing(this);
 	}
 
 	@Override
-	public int getSymbol() {
+	public char getSymbol() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 'X';
 	}
 }

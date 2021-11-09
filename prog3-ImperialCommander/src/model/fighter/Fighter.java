@@ -42,7 +42,7 @@ public abstract class Fighter {
 		
 	}
 	public abstract Fighter copy();
-	public abstract int getSymbol();
+	public abstract char getSymbol();
 	/*
 	 * @return la posicion del caza
 	 */

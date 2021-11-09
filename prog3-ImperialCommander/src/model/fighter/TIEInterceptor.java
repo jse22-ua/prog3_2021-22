@@ -9,16 +9,32 @@ public class TIEInterceptor extends Fighter{
 		addAttack(5);
 		addShield(-20);
 	}
-
+	
+	private TIEInterceptor(TIEInterceptor f) {
+		super(f);
+	}
 	@Override
 	public Fighter copy() {
 		// TODO Auto-generated method stub
-		return null;
+		return new TIEInterceptor(this);
 	}
 
 	@Override
-	public int getSymbol() {
+	public char getSymbol() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 'i';
+	}
+	
+	@Override
+	public int getDamage(int n,Fighter enemy) {
+		int damage=super.getDamage(n, enemy);
+		
+		if(enemy instanceof YWing) {
+			damage=damage*2;
+		}
+		else if(enemy instanceof AWing) {
+			damage=damage/2;
+		}
+		return damage;
 	}
 }

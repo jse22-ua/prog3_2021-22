@@ -9,16 +9,20 @@ public class TIEFighter extends Fighter{
 		addAttack(5);
 		addShield(10);
 	}
+	
+	private TIEFighter(TIEFighter f) {
+		super(f);
+	}
 
 	@Override
 	public Fighter copy() {
 		// TODO Auto-generated method stub
-		return null;
+		return new TIEFighter(this);
 	}
 
 	@Override
-	public int getSymbol() {
+	public char getSymbol() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 'f';
 	}
 }

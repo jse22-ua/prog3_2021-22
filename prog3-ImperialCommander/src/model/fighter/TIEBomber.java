@@ -9,16 +9,31 @@ public class TIEBomber extends Fighter {
 		addAttack(-50);
 		addShield(35);
 	}
-
+	
+	private TIEBomber(TIEBomber f) {
+		super(f);
+	}
 	@Override
 	public Fighter copy() {
 		// TODO Auto-generated method stub
-		return null;
+		return new TIEBomber(this);
 	}
 
 	@Override
-	public int getSymbol() {
+	public char getSymbol() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 'b';
+	}
+	
+	@Override
+	public int getDamage(int n,Fighter enemy) {
+		int damage=super.getDamage(n, enemy);
+		if(enemy instanceof XWing || enemy instanceof YWing) {
+			damage=damage/2;
+		}
+		else if(enemy instanceof AWing) {
+			damage=damage/3;
+		}
+		return damage;
 	}
 }
