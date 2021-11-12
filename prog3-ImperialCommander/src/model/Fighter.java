@@ -1,9 +1,6 @@
-package model.fighters;
+package model;
 
-import model.Coordinate;
-import model.RandomNumber;
-import model.Ship;
-import model.Side;
+import model.exceptions.*;
 
 /**
  * Practica 1
@@ -185,8 +182,11 @@ public abstract class Fighter {
 	 * @return 0 se cuando alguno de los cazas ya estaba destruido al empezar el metodo
 	 * @return 1 si gana nuestro caza y -1 si gana el caza enemigo
 	 */
-	public int fight(Fighter enemy) {
+	public int fight(Fighter enemy) throws FighterIsDestroyedException{
 		int destroyed=0,n, umbral;
+		if(enemy.isDestroyed()||this.isDestroyed()) {
+			throw new FighterIsDestroyedException(true);
+		}
 		umbral=100*velocity/(velocity+enemy.velocity);
 		while(shield>0 && enemy.shield>0) {
 			n=RandomNumber.newRandomNumber(100);

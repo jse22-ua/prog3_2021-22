@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-import model.fighters.Fighter;
+import model.exceptions.FighterIsDestroyedException;
 
 /**
  * Practica 1
@@ -76,34 +76,39 @@ public class Board {
 		return Coord;
 	}
  
-	public int launch(Coordinate c, Fighter f) {
+	public int launch(Coordinate c, Fighter f) throws FighterIsDestroyedException {
 		int r=0;
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(f);
-		if(inside(c)) {
-			if(board.get(c)!=null&& board.get(c).getSide()!=f.getSide()) {
-				r=f.fight(board.get(c));
-				f.getMotherShip().updateResults(r);
-				board.get(c).getMotherShip().updateResults(r*-1);
-				if(r==1) {
-					board.get(c).setPosition(null);
-					board.remove(c);
-					f.setPosition(c);
+		try {
+			if(inside(c)) {
+				if(board.get(c)!=null&& board.get(c).getSide()!=f.getSide()) {
+					r=f.fight(board.get(c));
+					f.getMotherShip().updateResults(r);
+					board.get(c).getMotherShip().updateResults(r*-1);
+					if(r==1) {
+						board.get(c).setPosition(null);
+						board.remove(c);
+						f.setPosition(c);
+						board.put(c,f);
+					}
+				}
+				else if(board.get(c)!=null&&board.get(c).getSide()==f.getSide()) {
+				
+				}
+				else {
 					board.put(c,f);
+					f.setPosition(c);
 				}
 			}
-			else if(board.get(c)!=null&&board.get(c).getSide()==f.getSide()) {
-				
-			}
-			else {
-				board.put(c,f);
-				f.setPosition(c);
-			}
+		}catch(FighterIsDestroyedException e){
+			e.getMessage();
 		}
 		return r;
+		
 	}
 	
-	public void patrol(Fighter f) {
+	public void patrol(Fighter f) throws FighterIsDestroyedException{
 		Objects.requireNonNull(f);
 		if(board.containsValue(f)) {
 			 Set<Coordinate> Coord= getNeighborhood(f.getPosition());

@@ -7,7 +7,6 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.fighters.Fighter;
 import model.fighters.AWing;
 import model.fighters.TIEBomber;
 import model.fighters.XWing;

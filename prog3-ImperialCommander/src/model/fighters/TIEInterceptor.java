@@ -1,5 +1,6 @@
 package model.fighters;
 
+import model.Fighter;
 import model.Ship;
 
 public class TIEInterceptor extends Fighter{

@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.fighters.Fighter;
-
 /**
  * Practica 1
  * @author Judit Serrano Espinosa,74379872B
