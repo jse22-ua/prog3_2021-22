@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.fighter.Fighter;
+import model.fighters.Fighter;
 
 /**
  * Practica 1
@@ -86,7 +86,7 @@ public class Ship {
 		for(int i=0;i<ships.length;i++){
 			String[] partes=ships[i].split("\\/");
 			for(int j=0;j<Integer.parseInt(partes[0]);j++) {
-				Fighter f=new Fighter(partes[1],this);
+				Fighter f=FighterFactory.createFighter(partes[1],this);
 				fleet.add(f);
 			}
 		}
@@ -108,7 +108,7 @@ public class Ship {
 	 */
 	public Fighter getFirstAvailableFighter(String t) {
 		boolean founded=false;
-		Fighter f= new Fighter(t,this);
+		Fighter f= FighterFactory.createFighter(t,this);
 		if(fleet.size()==0) {
 			return null;
 		}

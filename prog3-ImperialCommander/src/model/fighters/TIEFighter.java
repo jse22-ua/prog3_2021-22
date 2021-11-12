@@ -1,28 +1,28 @@
-package model.fighter;
+package model.fighters;
 
 import model.Ship;
 
-public class XWing extends Fighter{
-	
-	public XWing (Ship mother) {
+public class TIEFighter extends Fighter{
+	public TIEFighter(Ship mother) {
 		super(mother);
 		addVelocity(10);
-		addAttack(20);
+		addAttack(5);
+		addShield(10);
 	}
 	
-	private XWing(XWing f) {
+	private TIEFighter(TIEFighter f) {
 		super(f);
 	}
 
 	@Override
 	public Fighter copy() {
 		// TODO Auto-generated method stub
-		return new XWing(this);
+		return new TIEFighter(this);
 	}
 
 	@Override
 	public char getSymbol() {
 		// TODO Auto-generated method stub
-		return 'X';
+		return 'f';
 	}
 }

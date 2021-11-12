@@ -1,4 +1,4 @@
-package model.fighter;
+package model.fighters;
 
 import model.Ship;
 

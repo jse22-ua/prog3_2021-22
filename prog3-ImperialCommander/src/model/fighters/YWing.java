@@ -1,38 +1,41 @@
-package model.fighter;
+package model.fighters;
 
 import model.Ship;
 
-public class TIEBomber extends Fighter {
-	public TIEBomber(Ship mother) {
+public class YWing extends Fighter{
+	
+	public YWing(Ship mother) {
 		super(mother);
-		addVelocity(-30);
-		addAttack(-50);
-		addShield(35);
+		addVelocity(-20);
+		addAttack(-10);
+		addShield(30);
 	}
 	
-	private TIEBomber(TIEBomber f) {
+	private YWing(YWing f) {
 		super(f);
 	}
+
 	@Override
 	public Fighter copy() {
 		// TODO Auto-generated method stub
-		return new TIEBomber(this);
+		return new YWing(this);
 	}
 
 	@Override
 	public char getSymbol() {
 		// TODO Auto-generated method stub
-		return 'b';
+		return 'X';
 	}
 	
 	@Override
 	public int getDamage(int n,Fighter enemy) {
 		int damage=super.getDamage(n, enemy);
-		if(enemy instanceof XWing || enemy instanceof YWing) {
-			damage=damage/2;
-		}
-		else if(enemy instanceof AWing) {
+		
+		if(enemy instanceof TIEFighter ||enemy instanceof TIEInterceptor) {
 			damage=damage/3;
+		}
+		else if(enemy instanceof TIEBomber) {
+			damage=damage/2;
 		}
 		return damage;
 	}

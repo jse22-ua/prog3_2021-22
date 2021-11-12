@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-import model.fighter.Fighter;
+import model.fighters.Fighter;
 
 /**
  * Practica 1
@@ -25,7 +25,7 @@ public class Board {
 	public Fighter getFighter(Coordinate c) {
 		Objects.requireNonNull(c);
 		if(board.containsKey(c)) {
-			return new Fighter(board.get(c));
+			return board.get(c).copy();
 		}
 		else {
 			return null;

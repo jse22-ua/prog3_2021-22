@@ -1,7 +1,6 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
-import model.fighters.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
@@ -17,6 +16,7 @@ import org.junit.Test;
 import model.exceptions.FighterAlreadyInBoardException;
 import model.exceptions.FighterNotInBoardException;
 import model.exceptions.OutOfBoundsException;
+import model.fighterss.*;
 
 public class BoardTestP2 {
 

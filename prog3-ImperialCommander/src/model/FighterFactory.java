@@ -1,15 +1,9 @@
 package model;
 
-import model.fighter.AWing;
-import model.fighter.Fighter;
-import model.fighter.TIEBomber;
-import model.fighter.TIEFighter;
-import model.fighter.TIEInterceptor;
-import model.fighter.XWing;
-import model.fighter.YWing;
+import model.fighters.*;
 
 public class FighterFactory{
-	public static Fighter CreateFighter(String type, Ship mother) {
+	public static Fighter createFighter(String type, Ship mother) {
 		Fighter f=null;
 		switch(type) {
 		case "AWing":
