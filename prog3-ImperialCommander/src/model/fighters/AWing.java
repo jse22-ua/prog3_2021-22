@@ -2,7 +2,11 @@ package model.fighters;
 
 import model.Fighter;
 import model.Ship;
-
+/**
+ * Practica 3
+ * @author Judit Serrano Espinosa,74379872B
+ *
+ */
 public class AWing extends Fighter{
 	public AWing(Ship mother) {
 		super(mother);

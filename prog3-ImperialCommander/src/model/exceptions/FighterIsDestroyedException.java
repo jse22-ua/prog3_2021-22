@@ -1,5 +1,9 @@
 package model.exceptions;
-
+/**
+ * Practica 3
+ * @author Judit Serrano Espinosa,74379872B
+ *
+ */
 @SuppressWarnings("serial")
 public class FighterIsDestroyedException extends Exception{
 	

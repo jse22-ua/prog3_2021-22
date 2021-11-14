@@ -79,7 +79,7 @@ public class Ship {
 	}
 	
 	/*
-	 * se encarga de anadir las flotas de una nave a partir de una cadena de caracteres
+	 * se encarga de add las flotas de una nave a partir de una cadena de caracteres
 	 */
 	public void addFighters(String fd) {
 		String[] ships= fd.split("\\:");

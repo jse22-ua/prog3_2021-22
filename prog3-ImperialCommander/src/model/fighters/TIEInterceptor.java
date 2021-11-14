@@ -2,7 +2,11 @@ package model.fighters;
 
 import model.Fighter;
 import model.Ship;
-
+/**
+ * Practica 3
+ * @author Judit Serrano Espinosa,74379872B
+ *
+ */
 public class TIEInterceptor extends Fighter{
 	public TIEInterceptor(Ship mother) {
 		super(mother);

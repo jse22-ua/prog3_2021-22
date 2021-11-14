@@ -1,7 +1,11 @@
 package model.exceptions;
 
 import model.Fighter;
-
+/*
+ * Practica 3
+ * @author Judit Serrano Espinosa, 74379872B
+ * 
+ */
 @SuppressWarnings("serial")
 public class FighterAlreadyInBoardException extends Exception{ 
 	private Fighter f;

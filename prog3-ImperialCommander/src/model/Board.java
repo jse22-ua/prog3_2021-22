@@ -16,7 +16,10 @@ import model.exceptions.*;
 public class Board {
 	private int size;
 	private Map<Coordinate,Fighter> board;
- 
+	/*
+	 * @param size como de grande es el tablero
+	 * @param board el tablero
+	 */
 	public Board(int size)throws InvalidSizeException {
 		if(size<5) {
 			throw new InvalidSizeException(size);
@@ -25,6 +28,9 @@ public class Board {
 		board = new HashMap<Coordinate,Fighter>();
 	}
 	
+	/*
+	 * @return el fighter que se encuentra en la posicion del tablero
+	 */
 	public Fighter getFighter(Coordinate c) {
 		Objects.requireNonNull(c);
 		if(board.containsKey(c)) {
@@ -35,10 +41,16 @@ public class Board {
 		}
 	}
 	
+	/*
+	 * @return size
+	 */
 	public int getSize() {
 		return size;
 	}
 	
+	/*
+	 * @return un boolean que nos dice si se ha eliminado el fighter del tablero
+	 */
 	public boolean removeFighter(Fighter f) throws FighterNotInBoardException{	
 		Objects.requireNonNull(f);
 		if(!f.equals(board.get(f.getPosition()))) {
@@ -56,6 +68,9 @@ public class Board {
 		}
 		return removed;
 	}
+	/*
+	 * @return un boolean que nos dice si la coordenada está dentro del tablero
+	 */
 	public boolean inside(Coordinate c) {
 		Objects.requireNonNull(c);
 		if(c.equals(null)){
@@ -89,13 +104,13 @@ public class Board {
 		int r=0;
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(f);
-		if(inside(f.getPosition())) {
+		if(!inside(c)) {
+			throw new OutOfBoundsException();
+		}
+		if(board.containsValue(f)) {
 			throw new FighterAlreadyInBoardException(f);
 		}
 		try {
-			if(!inside(c)) {
-				throw new OutOfBoundsException();
-			}
 				if(board.get(c)!=null&& board.get(c).getSide()!=f.getSide()) {
 					r=f.fight(board.get(c));
 					f.getMotherShip().updateResults(r);
@@ -140,11 +155,12 @@ public class Board {
 						 }
 						else {
 							board.remove(f.getPosition());
-							 f.setPosition(null);
+							f.setPosition(null);
+							break;
 						}
-					 }catch(FighterIsDestroyedException e) {
-						 throw new RuntimeException("There was an "+ e.getMessage());
-					 }
+					 }catch(Exception e) {
+						 throw new RuntimeException();
+					}
 			 }
 			}
 		 f.getMotherShip().purgeFleet();
