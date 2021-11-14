@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.exceptions.NoFighterAvailableException;
+
 /**
  * Practica 1
  * @author Judit Serrano Espinosa,74379872B
@@ -104,7 +106,7 @@ public class Ship {
 	/*
 	 * Te devuelve el primer caza del tipo del String pasado por valor
 	 */
-	public Fighter getFirstAvailableFighter(String t) {
+	public Fighter getFirstAvailableFighter(String t) throws NoFighterAvailableException {
 		boolean founded=false;
 		Fighter f= FighterFactory.createFighter(t,this);
 		if(fleet.size()==0) {
@@ -126,12 +128,10 @@ public class Ship {
 				}
 			}
 		}
-		if(founded) {
+		if(!founded) {
+			throw new NoFighterAvailableException(t);
+		}
 			return f;
-		}
-		else {
-			return null;
-		}
 		
 	}
 	/*

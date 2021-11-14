@@ -1,12 +1,10 @@
 package model.exceptions;
 
-@SuppressWarnings("Serial")
+@SuppressWarnings("serial")
 public class FighterIsDestroyedException extends Exception{
-	private boolean destroyed;
 	
-	public FighterIsDestroyedException(boolean destroyed) {
+	public FighterIsDestroyedException() {
 		super();
-		this.destroyed=destroyed;
 	}
 	
 	public String getMessage() {

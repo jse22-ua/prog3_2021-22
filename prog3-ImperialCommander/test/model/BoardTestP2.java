@@ -16,7 +16,7 @@ import org.junit.Test;
 import model.exceptions.FighterAlreadyInBoardException;
 import model.exceptions.FighterNotInBoardException;
 import model.exceptions.OutOfBoundsException;
-import model.fighterss.*;
+import model.fighters.*;
 
 public class BoardTestP2 {
 

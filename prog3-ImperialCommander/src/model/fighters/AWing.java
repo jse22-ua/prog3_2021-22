@@ -8,7 +8,7 @@ public class AWing extends Fighter{
 		super(mother);
 		addVelocity(40);
 		addAttack(5);
-		addShield(50);
+		addShield(-50);
 	}
 	
 	private AWing(AWing f) {
