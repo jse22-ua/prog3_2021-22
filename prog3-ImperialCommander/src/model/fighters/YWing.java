@@ -29,7 +29,7 @@ public class YWing extends Fighter{
 	@Override
 	public char getSymbol() {
 		// TODO Auto-generated method stub
-		return 'X';
+		return 'Y';
 	}
 	
 	@Override

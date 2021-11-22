@@ -1,4 +1,7 @@
 package model.exceptions;
+
+import model.Fighter;
+
 /**
  * Practica 3
  * @author Judit Serrano Espinosa,74379872B
@@ -6,13 +9,15 @@ package model.exceptions;
  */
 @SuppressWarnings("serial")
 public class FighterIsDestroyedException extends Exception{
+	private Fighter f;
 	
-	public FighterIsDestroyedException() {
+	public FighterIsDestroyedException(Fighter f) {
 		super();
+		this.f=f;
 	}
 	
 	public String getMessage() {
-		return "ERROR: A Fighter is destroyed";
+		return "ERROR: The Fighter" + f + " is destroyed";
 	}
 	
 }

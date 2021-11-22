@@ -184,8 +184,11 @@ public abstract class Fighter {
 	 */
 	public int fight(Fighter enemy) throws FighterIsDestroyedException{
 		int destroyed=0,n, umbral;
-		if(enemy.isDestroyed()||this.isDestroyed()) {
-			throw new FighterIsDestroyedException();
+		if(enemy.isDestroyed()) {
+			throw new FighterIsDestroyedException(enemy);
+		}
+		else if(this.isDestroyed()) {
+			throw new FighterIsDestroyedException(this);
 		}
 		umbral=100*velocity/(velocity+enemy.velocity);
 		while(shield>0 && enemy.shield>0) {

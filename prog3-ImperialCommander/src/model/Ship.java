@@ -15,7 +15,7 @@ public class Ship {
 	private int wins;
 	private int losses;
 	private Side side;
-	private List<Fighter> fleet;
+	protected List<Fighter> fleet;
 	/*
 	 * @param name nombre de la nave
 	 * @param wins victorias obtenidas
@@ -109,12 +109,12 @@ public class Ship {
 	public Fighter getFirstAvailableFighter(String t) throws NoFighterAvailableException {
 		boolean founded=false;
 		Fighter f= FighterFactory.createFighter(t,this);
-		if(fleet.size()==0) {
-			return null;
+		if(t!="XWing"||t!="AWing"||t!="YWing"||t!="TIEBomber"||t!="TIEFighter"||t!="TIEInterceptor") {
+			throw new NoFighterAvailableException(t);
 		}
 		else if(t=="") {
 			for(int i=0; i<fleet.size()&&!founded;i++) {
-				if(!fleet.get(i).isDestroyed()) {
+				if(!fleet.get(i).isDestroyed()&&fleet.get(i).getPosition().equals(null)) {
 					founded=true;
 					f=fleet.get(i);	
 				}
@@ -122,7 +122,7 @@ public class Ship {
 		}
 		else{
 			for(int i=0;i<fleet.size()&&!founded;i++) {
-				if(t.equals(fleet.get(i).getType())&&!fleet.get(i).isDestroyed()) {
+				if(t.equals(fleet.get(i).getType())&&!fleet.get(i).isDestroyed()&&fleet.get(i).getPosition().equals(null)) {
 					founded=true;
 					f= fleet.get(i);
 				}

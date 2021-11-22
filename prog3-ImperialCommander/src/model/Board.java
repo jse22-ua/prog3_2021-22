@@ -15,7 +15,7 @@ import model.exceptions.*;
  */
 public class Board {
 	private int size;
-	private Map<Coordinate,Fighter> board;
+	protected Map<Coordinate,Fighter> board;
 	/*
 	 * @param size como de grande es el tablero
 	 * @param board el tablero
@@ -87,7 +87,7 @@ public class Board {
 	public Set<Coordinate> getNeighborhood(Coordinate c) throws OutOfBoundsException{
 		Objects.requireNonNull(c);
 		if(!inside(c)) {
-			throw new OutOfBoundsException();
+			throw new OutOfBoundsException(c);
 		}
 		Set<Coordinate> Coord = new TreeSet<Coordinate>();
 		Set<Coordinate> Coordinates=c.getNeighborhood();
@@ -104,11 +104,11 @@ public class Board {
 		int r=0;
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(f);
-		if(!inside(c)) {
-			throw new OutOfBoundsException();
-		}
-		if(board.containsValue(f)) {
+		if(board.containsKey(f.getPosition())) {
 			throw new FighterAlreadyInBoardException(f);
+		}
+		if(!inside(c)) {
+			throw new OutOfBoundsException(c);
 		}
 		try {
 				if(board.get(c)!=null&& board.get(c).getSide()!=f.getSide()) {
@@ -135,16 +135,16 @@ public class Board {
 		return r;
 	}
 	
-	public void patrol(Fighter f) throws OutOfBoundsException,FighterNotInBoardException{
+	public void patrol(Fighter f) throws FighterNotInBoardException{
 		Objects.requireNonNull(f);
 		if(!board.containsValue(f)||!f.equals(board.get(f.getPosition()))) {
 			throw new FighterNotInBoardException(f);
 		}
+		try{
 		 Set<Coordinate> Coord= getNeighborhood(f.getPosition());
 			for(Coordinate Coordenada: Coord) {
 				Fighter fenemy=board.get(Coordenada);
 				 if(board.get(Coordenada)!=null && !board.get(Coordenada).getSide().equals(f.getSide())) {
-					 try {
 						 int r=f.fight(fenemy);
 						 fenemy.getMotherShip().updateResults(r*-1);
 						 f.getMotherShip().updateResults(r);
@@ -158,10 +158,12 @@ public class Board {
 							f.setPosition(null);
 							break;
 						}
-					 }catch(Exception e) {
-						 throw new RuntimeException();
 					}
 			 }
+			}catch(OutOfBoundsException e2) {
+				throw new RuntimeException();
+			}catch(FighterIsDestroyedException e1) {
+				throw new RuntimeException();
 			}
 		 f.getMotherShip().purgeFleet();
 	}
