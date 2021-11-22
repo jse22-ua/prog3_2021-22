@@ -5,6 +5,11 @@ import java.util.*;
 import model.*;
 import model.exceptions.InvalidSizeException;
 
+/**
+ * Practica 4
+ * @author Judit Serrano Espinosa, 74379872B
+ */
+
 public class GameBoard extends Board{
 	
 	public GameBoard(int size) throws InvalidSizeException {
