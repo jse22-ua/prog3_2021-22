@@ -59,7 +59,7 @@ public class GameShip extends Ship{
 				}
 			}
 		}
-		else if(where.equals("Ship")) {
+		else if(where.equals("ship")) {
 			for(Fighter f: fleet) {
 				if(f.getPosition().equals(null)&&!f.isDestroyed()) {
 					ids.add(f.getId());
