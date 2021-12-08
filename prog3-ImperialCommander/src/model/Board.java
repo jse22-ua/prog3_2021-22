@@ -160,9 +160,7 @@ public class Board {
 						}
 					}
 			 }
-			}catch(OutOfBoundsException e2) {
-				throw new RuntimeException();
-			}catch(FighterIsDestroyedException e1) {
+			}catch(FighterIsDestroyedException | OutOfBoundsException e) {
 				throw new RuntimeException();
 			}
 		 f.getMotherShip().purgeFleet();

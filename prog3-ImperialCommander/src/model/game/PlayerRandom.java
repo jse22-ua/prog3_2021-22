@@ -1,5 +1,9 @@
 package model.game;
-
+/**
+ * Practica 4
+ * @author Judit Serrano Espinosa,74379872B
+ *
+ */
 import java.util.*;
 
 import model.*;
@@ -14,12 +18,14 @@ public class PlayerRandom implements IPlayer{
 	private int numFighter;
 	
 	public PlayerRandom(Side side, int numFighter) {
+		Objects.requireNonNull(side);
 		String name= "PlayerRamdom";
 		gs=new GameShip(name,side);
 		this.numFighter=numFighter;
 	}
 	
 	public void setBoard(GameBoard gb) {
+		Objects.requireNonNull(gb);
 		this.gb=gb;
 	}
 	
@@ -27,38 +33,40 @@ public class PlayerRandom implements IPlayer{
 		return gs;
 	}
 	
-	public void initFighter() {
-		List<Fighter> f=gs.getFleetTest();
-		List<String> tipos=new ArrayList<>();
-		StringBuilder cadena=new StringBuilder();
-		int n=0;
-		if(gs.getSide().equals(Side.IMPERIAL)) {
-			tipos.add("TIEFighter");
-			tipos.add("TIEBomber");
-			tipos.add("TIEInterceptor");
-		}
-		else if(gs.getSide().equals(Side.REBEL)) {
-			tipos.add("XWing");
-			tipos.add("YWing");
-			tipos.add("AWing");
-		}
-		if(tipos.size()!=0) {
-			for(int i=0;i<tipos.size();i++) {
-				for(Fighter fighter:f)
-					if(fighter.getType().equals(tipos.get(i))) {
-						n=RandomNumber.newRandomNumber(numFighter);
-						if(n!=0) {
-							cadena.append(n + "/" + tipos.get(i));
-							if(i!=tipos.size()-1) {
-								cadena.append(":");
-							}
-						}
-						break;
-					}
+	public void initFighters() {
+		if(!gs.getFleetTest().isEmpty()) {
+			List<Fighter> f=gs.getFleetTest();
+			List<String> tipos=new ArrayList<>();
+			StringBuilder cadena=new StringBuilder();
+			int n=0;
+			if(gs.getSide().equals(Side.IMPERIAL)) {
+				tipos.add("TIEFighter");
+				tipos.add("TIEBomber");
+				tipos.add("TIEInterceptor");
 			}
-		}
-		if(!cadena.equals(null)) {
-			gs.addFighters(cadena.toString());
+			else if(gs.getSide().equals(Side.REBEL)) {
+				tipos.add("XWing");
+				tipos.add("YWing");
+				tipos.add("AWing");
+			}
+			if(tipos.size()!=0) {
+				for(int i=0;i<tipos.size();i++) {
+					for(Fighter fighter:f)
+						if(fighter.getType().equals(tipos.get(i))) {
+							n=RandomNumber.newRandomNumber(numFighter);
+							if(n!=0) {
+								cadena.append(n + "/" + tipos.get(i));
+								if(i!=tipos.size()-1) {
+									cadena.append(":");
+								}
+							}
+							break;
+						}
+				}
+			}
+			if(!cadena.equals(null)) {
+				gs.addFighters(cadena.toString());
+			}
 		}
 	}
 	public boolean isFleetDestroyed() {
@@ -80,13 +88,17 @@ public class PlayerRandom implements IPlayer{
 			next=false;
 		}
 		else {
-			List<Integer>list=gs.getFighterId("Ship");
+			List<Integer>list=gs.getFightersId("Ship");
 			int id=RandomNumber.newRandomNumber(list.size());
 			if(list.isEmpty()) {
-				System.err.println("ERROR: There are not fighters on the ship");
+				throw new RuntimeException("ERROR: There are not fighters on the ship");
 			}
 			if(option<99&&option>84) {
-				gs.improveFighter(id, option, gb);
+				try {
+					gs.improveFighter(id, option, gb);
+				} catch (WrongFighterIdException e) {
+					throw new RuntimeException(e);
+				}
 			}
 			else if(option<85&&option>24) {
 				int x= RandomNumber.newRandomNumber(gb.getSize());
@@ -108,4 +120,5 @@ public class PlayerRandom implements IPlayer{
 		}
 		return next;
 	}
+
 }

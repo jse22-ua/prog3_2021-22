@@ -50,7 +50,7 @@ public class GameShip extends Ship{
 		return f;
 	}
 	
-	public List<Integer> getFighterId(String where){
+	public List<Integer> getFightersId(String where){
 		List<Integer> ids= new ArrayList<Integer>();
 		if(where.equals("board")) {
 			for(Fighter f: fleet) {
@@ -77,25 +77,28 @@ public class GameShip extends Ship{
 	}
 	
 	public void launch(int id,Coordinate c,Board b) throws WrongFighterIdException, FighterAlreadyInBoardException, OutOfBoundsException {
+		Objects.requireNonNull(c);
+		Objects.requireNonNull(b);
 		Fighter f=getFighter(id);
 		b.launch(c,f);
 	}
 	
 	public void patrol(int id, Board b) throws WrongFighterIdException, FighterNotInBoardException {
+		Objects.requireNonNull(b);
 		Fighter f=getFighter(id);
 		b.patrol(f);
 	}
 	
-	public void improveFighter(int id, int qty, Board b) throws WrongFighterIdException, FighterNotInBoardException{
+	public void improveFighter(int id, int qty, Board b) throws WrongFighterIdException{
+		Objects.requireNonNull(b);
 		Fighter f=getFighter(id);
-		if(!b.inside(f.getPosition())) {
-			throw new FighterNotInBoardException(f);
+		try {
+			b.removeFighter(f);
+		} catch (FighterNotInBoardException e) {
+			throw new RuntimeException(e);
 		}
 		int mejora = qty/2;
 		f.addAttack(mejora);
 		f.addShield(qty-mejora);
-		//revisar porque el enunciado dice
-		//si no estaba en el tablero se lanzará la FighterNotInBoardException, 
-		//que se debe capturar para no hacer nada
 	}
 }

@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import model.exceptions.NoFighterAvailableException;
 
@@ -25,6 +26,8 @@ public class Ship {
 	 */
 	
 	public Ship(String name, Side side) {
+		Objects.requireNonNull(side);
+		Objects.requireNonNull(name);
 		wins=0;
 		losses=0;
 		this.name=name;
@@ -82,6 +85,7 @@ public class Ship {
 	 * se encarga de add las flotas de una nave a partir de una cadena de caracteres
 	 */
 	public void addFighters(String fd) {
+		Objects.requireNonNull(fd);
 		String[] ships= fd.split("\\:");
 		for(int i=0;i<ships.length;i++){
 			String[] partes=ships[i].split("\\/");
@@ -107,6 +111,7 @@ public class Ship {
 	 * Te devuelve el primer caza del tipo del String pasado por valor
 	 */
 	public Fighter getFirstAvailableFighter(String t) throws NoFighterAvailableException {
+		Objects.requireNonNull(t);
 		boolean founded=false;
 		Fighter f= FighterFactory.createFighter(t,this);
 		if(t!="XWing"||t!="AWing"||t!="YWing"||t!="TIEBomber"||t!="TIEFighter"||t!="TIEInterceptor") {

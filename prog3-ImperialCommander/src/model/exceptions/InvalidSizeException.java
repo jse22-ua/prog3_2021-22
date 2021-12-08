@@ -14,7 +14,7 @@ public class InvalidSizeException extends Exception{
 	}
 	
 	public String getMessage() {
-		return "ERROR:not valid size: " + size ;
+		return "ERROR: not valid size: " + size ;
 		
 	}
 }

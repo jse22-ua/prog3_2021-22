@@ -18,6 +18,6 @@ public class FighterNotInBoardException extends Exception {
 	
 	public String getMessage() {
 		
-		return "ERROR:The Figther's position" + f + "is wrong";
+		return "ERROR: The Figther's position" + f + "is wrong";
 	}
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 import model.exceptions.*;
 
 /**
@@ -27,6 +29,7 @@ public abstract class Fighter {
 	 * @param Side grupo de la flota a la que pertenece
 	 */
 	protected Fighter(Ship mother) {
+		Objects.requireNonNull(mother);
 		id=nextId;
 		velocity=100;
 		attack=80;
@@ -51,6 +54,7 @@ public abstract class Fighter {
 	 * Crea una copia de un objeto Fighter
 	 */
 	protected Fighter (Fighter f) {
+		Objects.requireNonNull(f);
 		attack=f.attack;
 		id=f.id;
 		shield=f.shield;
@@ -154,6 +158,7 @@ public abstract class Fighter {
 	 * @return el damage que puede hacer el caza. Calculado a partir de un numero aleatorio y su ataque
 	 */
 	public int getDamage(int n,Fighter enemy) {
+		Objects.requireNonNull(enemy);
 		int damage;
 		
 		damage=(n*attack)/300;
@@ -183,6 +188,7 @@ public abstract class Fighter {
 	 * @return 1 si gana nuestro caza y -1 si gana el caza enemigo
 	 */
 	public int fight(Fighter enemy) throws FighterIsDestroyedException{
+		Objects.requireNonNull(enemy);
 		int destroyed=0,n, umbral;
 		if(enemy.isDestroyed()) {
 			throw new FighterIsDestroyedException(enemy);

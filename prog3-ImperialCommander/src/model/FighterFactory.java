@@ -1,9 +1,18 @@
 package model;
 
+import java.util.Objects;
+
 import model.fighters.*;
+
+/**
+ * Practica 3
+ * @author Judit Serrano Espinosa,74379872B
+ *
+ */
 
 public class FighterFactory{
 	public static Fighter createFighter(String type, Ship mother) {
+		Objects.requireNonNull(mother);
 		Fighter f=null;
 		switch(type) {
 		case "AWing":
