@@ -104,7 +104,7 @@ public class Board {
 		int r=0;
 		Objects.requireNonNull(c);
 		Objects.requireNonNull(f);
-		if(board.containsKey(f.getPosition())) {
+		if(f.getPosition()!=null) {
 			throw new FighterAlreadyInBoardException(f);
 		}
 		if(!inside(c)) {
@@ -137,14 +137,17 @@ public class Board {
 	
 	public void patrol(Fighter f) throws FighterNotInBoardException{
 		Objects.requireNonNull(f);
-		if(!board.containsValue(f)||!f.equals(board.get(f.getPosition()))) {
-			throw new FighterNotInBoardException(f);
-		}
 		try{
-		 Set<Coordinate> Coord= getNeighborhood(f.getPosition());
+			if(f.getPosition()==null) {
+				throw new FighterNotInBoardException(f);
+			}
+		 Set<Coordinate> Coord = getNeighborhood(f.getPosition());
+			if(!f.equals(board.get(f.getPosition()))) {
+				throw new FighterNotInBoardException(f);
+			}
 			for(Coordinate Coordenada: Coord) {
 				Fighter fenemy=board.get(Coordenada);
-				 if(board.get(Coordenada)!=null && !board.get(Coordenada).getSide().equals(f.getSide())) {
+				 if(board.get(Coordenada)!=null && board.get(Coordenada).getSide()!=f.getSide()) {
 						 int r=f.fight(fenemy);
 						 fenemy.getMotherShip().updateResults(r*-1);
 						 f.getMotherShip().updateResults(r);

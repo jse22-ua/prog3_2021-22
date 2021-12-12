@@ -17,6 +17,7 @@ import model.Ship;
 import model.Side;
 import model.exceptions.FighterAlreadyInBoardException;
 import model.exceptions.InvalidSizeException;
+import model.exceptions.NoFighterAvailableException;
 import model.exceptions.OutOfBoundsException;
 
 public class GameBoardPreTest {
@@ -106,7 +107,16 @@ public class GameBoardPreTest {
 		gameShip.addFighters("7/AWing:6/XWing:2/YWing");
 		GameShip gameImperialShip = new GameShip("Lanzadera T-4a", Side.IMPERIAL);
 		gameImperialShip.addFighters("3/TIEBomber:9/TIEInterceptor:2/TIEFighter");
-		fail("Termina el test");
+		int i=0;
+		int j=0;
+		for(Fighter f : gameImperialShip.getFleetTest()) {
+			if (i==gameBoard.getSize()) {
+				i=0; j++;
+			}
+			gameBoard.launch(new Coordinate (i,j),f);
+			i++;
+		}
+		assertEquals(14,gameBoard.numFighters(Side.IMPERIAL));
 	}
 	
 	/* Se prueba toString para un tablero de 15x15 vacío
@@ -128,8 +138,30 @@ public class GameBoardPreTest {
 	//TODO
 	@Test
 	public void testToStringExample() throws FighterAlreadyInBoardException, OutOfBoundsException, InvalidSizeException {
-		
-		fail("Termina de realizar el test");
+		GameShip imperialShip=new GameShip("Soldado", Side.IMPERIAL);
+		GameShip rebeldeShip = new GameShip("Ren", Side.REBEL);
+		rebeldeShip.addFighters("4/AWing:3/XWing:2/YWing");
+		imperialShip.addFighters("1/TIEBomber:1/TIEInterceptor");
+		try {
+			gameBoard.launch(new Coordinate(0,3),rebeldeShip.getFirstAvailableFighter("AWing"));
+			gameBoard.launch(new Coordinate(0,8), rebeldeShip.getFirstAvailableFighter("AWing"));
+			gameBoard.launch(new Coordinate(0,9), rebeldeShip.getFirstAvailableFighter("XWing"));
+			gameBoard.launch(new Coordinate(2,4), rebeldeShip.getFirstAvailableFighter("XWing"));
+			gameBoard.launch(new Coordinate(3,7), rebeldeShip.getFirstAvailableFighter("AWing"));
+			gameBoard.launch(new Coordinate(5,3), rebeldeShip.getFirstAvailableFighter("AWing"));
+			gameBoard.launch(new Coordinate(6,1), imperialShip.getFirstAvailableFighter("TIEInterceptor"));
+			gameBoard.launch(new Coordinate(6,3), rebeldeShip.getFirstAvailableFighter("YWing"));
+			gameBoard.launch(new Coordinate(7,4), rebeldeShip.getFirstAvailableFighter("YWing"));
+			gameBoard.launch(new Coordinate(7,6), imperialShip.getFirstAvailableFighter("TIEBomber"));
+			gameBoard.launch(new Coordinate(7,8), rebeldeShip.getFirstAvailableFighter("XWing"));
+			
+			compareLines(kEXAMPLEBOARD,gameBoard.toString());
+			assertEquals(9,gameBoard.numFighters(Side.REBEL));
+			assertEquals(2,gameBoard.numFighters(Side.IMPERIAL));
+		} catch (NoFighterAvailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*************************

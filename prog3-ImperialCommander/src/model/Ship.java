@@ -113,23 +113,28 @@ public class Ship {
 	public Fighter getFirstAvailableFighter(String t) throws NoFighterAvailableException {
 		Objects.requireNonNull(t);
 		boolean founded=false;
-		Fighter f= FighterFactory.createFighter(t,this);
-		if(t!="XWing"||t!="AWing"||t!="YWing"||t!="TIEBomber"||t!="TIEFighter"||t!="TIEInterceptor") {
+		if(fleet.isEmpty()) {
 			throw new NoFighterAvailableException(t);
 		}
-		else if(t=="") {
-			for(int i=0; i<fleet.size()&&!founded;i++) {
-				if(!fleet.get(i).isDestroyed()&&fleet.get(i).getPosition().equals(null)) {
+		if(!t.equals("AWing")&& !t.equals("")&& !t.equals("XWing") && !t.equals("YWing") && !t.equals("TIEBomber")&& !t.equals("TIEInterceptor")&& !t.equals("TIEFighter")) {
+			throw new NoFighterAvailableException(t);
+		}
+		Fighter f= FighterFactory.createFighter(t,this);
+		if(t.equals("")){
+			for(int i=0; i<fleet.size();i++) {
+				if(!fleet.get(i).isDestroyed()&&fleet.get(i).getPosition()==null) {
 					founded=true;
 					f=fleet.get(i);	
+					break;
 				}
 			}
 		}
 		else{
-			for(int i=0;i<fleet.size()&&!founded;i++) {
-				if(t.equals(fleet.get(i).getType())&&!fleet.get(i).isDestroyed()&&fleet.get(i).getPosition().equals(null)) {
+			for(int i=0;i<fleet.size();i++) {
+				if(t.equals(fleet.get(i).getType())&&!fleet.get(i).isDestroyed()&&fleet.get(i).getPosition()==null) {
 					founded=true;
 					f= fleet.get(i);
+					break;
 				}
 			}
 		}

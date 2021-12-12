@@ -43,7 +43,6 @@ public class FightersPreTest {
 		XWing fxcopy = (XWing) fx.copy();
 		assertEquals("copy XWing as XWing",fxx,fxcopy);
 		
-		fail("completa el test añadiendo pruebas similares para los cazas que faltan por probar");
 	}
 	
 	@Test

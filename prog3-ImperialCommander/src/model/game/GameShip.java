@@ -35,8 +35,11 @@ public class GameShip extends Ship{
 	}
 	
 	private Fighter getFighter(int id) throws WrongFighterIdException {
-		Fighter f=null;
+		Fighter f = null;
 		boolean founded=false;
+		if(id>fleet.get(fleet.size()-1).getId()) {
+			throw new WrongFighterIdException(id);
+		}
 		for(int i=0;i<fleet.size();i++) {
 			if(fleet.get(i).getId()==id&&!fleet.get(i).isDestroyed()) {
 				f=fleet.get(i);
@@ -54,14 +57,14 @@ public class GameShip extends Ship{
 		List<Integer> ids= new ArrayList<Integer>();
 		if(where.equals("board")) {
 			for(Fighter f: fleet) {
-				if(!f.getPosition().equals(null)&&!f.isDestroyed()) {
+				if(f.getPosition()!=null&&!f.isDestroyed()) {
 					ids.add(f.getId());
 				}
 			}
 		}
 		else if(where.equals("ship")) {
 			for(Fighter f: fleet) {
-				if(f.getPosition().equals(null)&&!f.isDestroyed()) {
+				if(f.getPosition()==null&&!f.isDestroyed()) {
 					ids.add(f.getId());
 				}
 			}
@@ -87,18 +90,18 @@ public class GameShip extends Ship{
 		Objects.requireNonNull(b);
 		Fighter f=getFighter(id);
 		b.patrol(f);
-	}
+		}
 	
 	public void improveFighter(int id, int qty, Board b) throws WrongFighterIdException{
 		Objects.requireNonNull(b);
 		Fighter f=getFighter(id);
 		try {
 			b.removeFighter(f);
+			int mejora = qty/2;
+			f.addAttack(mejora);
+			f.addShield(qty-mejora);
 		} catch (FighterNotInBoardException e) {
-			throw new RuntimeException(e);
+			
 		}
-		int mejora = qty/2;
-		f.addAttack(mejora);
-		f.addShield(qty-mejora);
 	}
 }

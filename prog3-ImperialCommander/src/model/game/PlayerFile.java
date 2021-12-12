@@ -23,7 +23,18 @@ public class PlayerFile implements IPlayer{
 	
 	PlayerFile(Side side,BufferedReader br){
 		Objects.requireNonNull(br);
-		String name="PlayerFile";
+		StringBuilder compostname=new StringBuilder();
+		compostname.append("PlayerFile");
+		
+		if(side.equals(Side.REBEL)) {
+		compostname.append(" REBEL ");
+		}
+		else {
+			compostname.append(" IMPERIAL ");
+		}
+		compostname.append("Ship");
+		String name=compostname.toString();
+		
 		ship= new GameShip(name,side);
 		this.br=br;
 	}

@@ -76,7 +76,7 @@ public class PlayerRandomPreTest {
 		gs = playerRandom.getGameShip();
 		assertEquals(Side.REBEL,gs.getSide());
 		assertEquals("PlayerRandom REBEL Ship", gs.getName());
-		fail("Comprueba que el objeto playerRandom es una instancia de IPlayer");
+		assertTrue(playerRandom instanceof IPlayer);
 	}
 
 
@@ -181,8 +181,14 @@ public class PlayerRandomPreTest {
 	//TODO
 	@Test
 	public void testRequireNonNull()  {
-		
-		fail("Realiza el test");
+		try {
+			PlayerRandom pr=new PlayerRandom(null,4);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
+		try {
+			playerRandom.setBoard(null);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
 	}
 
 	/***************************

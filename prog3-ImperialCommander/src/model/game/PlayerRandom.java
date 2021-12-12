@@ -19,7 +19,17 @@ public class PlayerRandom implements IPlayer{
 	
 	public PlayerRandom(Side side, int numFighter) {
 		Objects.requireNonNull(side);
-		String name= "PlayerRamdom";
+		StringBuilder compostname=new StringBuilder();
+		compostname.append("PlayerRandom");
+		
+		if(side.equals(Side.REBEL)) {
+		compostname.append(" REBEL ");
+		}
+		else {
+			compostname.append(" IMPERIAL ");
+		}
+		compostname.append("Ship");
+		String name=compostname.toString();
 		gs=new GameShip(name,side);
 		this.numFighter=numFighter;
 	}
@@ -53,7 +63,7 @@ public class PlayerRandom implements IPlayer{
 				for(int i=0;i<tipos.size();i++) {
 					for(Fighter fighter:f)
 						if(fighter.getType().equals(tipos.get(i))) {
-							n=RandomNumber.newRandomNumber(numFighter);
+							n=RandomNumber.newRandomNumber(numFighter-1);
 							if(n!=0) {
 								cadena.append(n + "/" + tipos.get(i));
 								if(i!=tipos.size()-1) {

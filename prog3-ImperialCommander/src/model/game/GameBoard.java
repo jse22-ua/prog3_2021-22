@@ -29,18 +29,18 @@ public class GameBoard extends Board{
 	
 	public String toString() {
 		StringBuilder concatenation=new StringBuilder();
-		for(int x=0;x<=getSize();x++) {
+		for(int x=0;x<getSize();x++) {
 			concatenation.append(x);
 		}
 		concatenation.append("\n");
-		for(int y=0;y<=getSize();y++) {
+		for(int y=0;y<getSize();y++) {
 			concatenation.append("-");
 		}
 		concatenation.append("\n");
-		for(int i=0;i<=getSize();i++) {
+		for(int i=0;i<getSize();i++) {
 			concatenation.append(i+"|");
-			for(int j=0;i<=getSize();j++) {
-				if(!board.get(new Coordinate(i,j)).equals(null)) {
+			for(int j=0;j<getSize();j++) {
+				if(board.get(new Coordinate(i,j))!=null) {
 					concatenation.append(board.get(new Coordinate(i,j)).getSymbol());
 				}
 				else {
