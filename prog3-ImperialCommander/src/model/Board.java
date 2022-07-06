@@ -113,8 +113,8 @@ public class Board {
 		try {
 				if(board.get(c)!=null&& board.get(c).getSide()!=f.getSide()) {
 					r=f.fight(board.get(c));
-					f.getMotherShip().updateResults(r);
-					board.get(c).getMotherShip().updateResults(r*-1);
+					f.getMotherShip().updateResults(r,board.get(c));
+					board.get(c).getMotherShip().updateResults(r*-1,f);
 					if(r==1) {
 						board.get(c).setPosition(null);
 						board.remove(c);
@@ -149,8 +149,8 @@ public class Board {
 				Fighter fenemy=board.get(Coordenada);
 				 if(board.get(Coordenada)!=null && board.get(Coordenada).getSide()!=f.getSide()) {
 						 int r=f.fight(fenemy);
-						 fenemy.getMotherShip().updateResults(r*-1);
-						 f.getMotherShip().updateResults(r);
+						 fenemy.getMotherShip().updateResults(r*-1,f);
+						 f.getMotherShip().updateResults(r,fenemy);
 						 if(r==1) {
 							 fenemy.setPosition(null);
 							 board.remove(Coordenada);
@@ -166,6 +166,5 @@ public class Board {
 			}catch(FighterIsDestroyedException | OutOfBoundsException e) {
 				throw new RuntimeException();
 			}
-		 f.getMotherShip().purgeFleet();
 	}
 }

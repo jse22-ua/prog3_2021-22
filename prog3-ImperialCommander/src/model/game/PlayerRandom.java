@@ -11,6 +11,8 @@ import model.exceptions.FighterAlreadyInBoardException;
 import model.exceptions.FighterNotInBoardException;
 import model.exceptions.OutOfBoundsException;
 import model.game.exceptions.WrongFighterIdException;
+import model.game.score.DestroyedFightersScore;
+import model.game.score.WinsScore;
 
 public class PlayerRandom implements IPlayer{
 	private GameBoard gb;
@@ -44,47 +46,44 @@ public class PlayerRandom implements IPlayer{
 	}
 	
 	public void initFighters() {
-		if(!gs.getFleetTest().isEmpty()) {
-			List<Fighter> f=gs.getFleetTest();
 			List<String> tipos=new ArrayList<>();
 			StringBuilder cadena=new StringBuilder();
 			int n=0;
-			if(gs.getSide().equals(Side.IMPERIAL)) {
-				tipos.add("TIEFighter");
-				tipos.add("TIEBomber");
-				tipos.add("TIEInterceptor");
-			}
-			else if(gs.getSide().equals(Side.REBEL)) {
+			if(gs.getSide().equals(Side.REBEL)) {
 				tipos.add("XWing");
 				tipos.add("YWing");
 				tipos.add("AWing");
 			}
-			if(tipos.size()!=0) {
-				for(int i=0;i<tipos.size();i++) {
-					for(Fighter fighter:f)
-						if(fighter.getType().equals(tipos.get(i))) {
-							n=RandomNumber.newRandomNumber(numFighter-1);
-							if(n!=0) {
-								cadena.append(n + "/" + tipos.get(i));
-								if(i!=tipos.size()-1) {
-									cadena.append(":");
-								}
-							}
-							break;
-						}
+			else if(gs.getSide().equals(Side.IMPERIAL)) {
+				tipos.add("TIEFighter");
+				tipos.add("TIEBomber");
+				tipos.add("TIEInterceptor");
+			}
+			for(int i=0;i<tipos.size();i++) {
+				n=RandomNumber.newRandomNumber(numFighter);
+				if(n!=0) {
+					cadena.append(n + "/" + tipos.get(i));
+					if(i!=tipos.size()-1) {
+						cadena.append(":");
+					}
 				}
 			}
-			if(!cadena.equals(null)) {
+			if(cadena.length()!=0) {
 				gs.addFighters(cadena.toString());
 			}
-		}
 	}
 	public boolean isFleetDestroyed() {
 		return gs.isFleetDestroyed();
 	}
 	
 	public String showShip() {
-		return gs.toString() + gs.showFleet();
+		StringBuilder showIt = new StringBuilder();
+		showIt.append(gs.toString());
+		showIt.append("\n");
+		if(gs.getFleetTest()!=null) {
+			showIt.append(gs.showFleet());
+		}
+		return showIt.toString();
 	}
 	
 	public void purgeFleet() {
@@ -93,42 +92,69 @@ public class PlayerRandom implements IPlayer{
 	
 	public boolean nextPlay() {
 		boolean next=true;
-		int option =RandomNumber.newRandomNumber(100);
+		int option=RandomNumber.newRandomNumber(100);
 		if(option==99) {
 			next=false;
 		}
 		else {
-			List<Integer>list=gs.getFightersId("Ship");
-			int id=RandomNumber.newRandomNumber(list.size());
-			if(list.isEmpty()) {
-				throw new RuntimeException("ERROR: There are not fighters on the ship");
-			}
-			if(option<99&&option>84) {
-				try {
-					gs.improveFighter(id, option, gb);
-				} catch (WrongFighterIdException e) {
-					throw new RuntimeException(e);
+				if(option<=98&&option>=85) {
+					try {
+						List<Integer>list=gs.getFightersId("");
+						if(list.isEmpty()) {
+							System.out.println("ERROR: There are not fighters on the ship");
+						}
+						else {
+							int position=RandomNumber.newRandomNumber(list.size());
+							int id=list.get(position);
+							gs.improveFighter(id, option, gb);
+						}
+					} catch (WrongFighterIdException e) {
+						System.out.println("ERROR: "+ e.getMessage());
+					}
 				}
-			}
-			else if(option<85&&option>24) {
-				int x= RandomNumber.newRandomNumber(gb.getSize());
-				int y= RandomNumber.newRandomNumber(gb.getSize());
-				Coordinate c=new Coordinate(x,y);
-				try {
-					gs.launch(id, c, gb);
-				} catch (WrongFighterIdException | FighterAlreadyInBoardException | OutOfBoundsException e) {
-					throw new RuntimeException(e);
+				else if(option<=84&&option>=25) {
+					try {
+						List<Integer>list=gs.getFightersId("ship");
+						if(list.isEmpty()) {
+							System.out.println("ERROR: There are not fighters on the ship");
+						}
+						else {
+						int position=RandomNumber.newRandomNumber(list.size());
+						int id=list.get(position);
+						int x= RandomNumber.newRandomNumber(gb.getSize());
+						int y= RandomNumber.newRandomNumber(gb.getSize());
+						Coordinate c=new Coordinate(x,y);
+						gs.launch(id, c, gb);}
+					} catch (WrongFighterIdException | FighterAlreadyInBoardException | OutOfBoundsException e) {
+						throw new RuntimeException(e);
+					}
 				}
-			}
-			else if(option<0&&option<25) {
-				try {
-					gs.patrol(id, gb);
-				} catch (WrongFighterIdException | FighterNotInBoardException e) {
-					throw new RuntimeException(e);
+				else if(option>=0&&option<=24) {
+					try {
+						List<Integer>list=gs.getFightersId("board");
+						if(list.isEmpty()) {
+							System.out.println("ERROR: There are not fighters on the ship");
+						}
+						else {
+						int position=RandomNumber.newRandomNumber(list.size());
+						int id=list.get(position);
+						gs.patrol(id, gb);}
+					} catch (WrongFighterIdException | FighterNotInBoardException e) {
+						throw new RuntimeException(e);
+					}
 				}
-			}
 		}
 		return next;
+	}
+
+	@Override
+	public WinsScore getWinsScore() {
+		return gs.getWinsScore();
+	}
+
+	@Override
+	public DestroyedFightersScore getDestroyedFightersScore() {
+		return gs.getDestroyedFightersScore();
 	}
 
 }

@@ -1,11 +1,19 @@
 package model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import model.fighters.*;
+import model.fighters.AWing;
+import model.fighters.TIEBomber;
+import model.fighters.TIEFighter;
+import model.fighters.TIEInterceptor;
+import model.fighters.XWing;
+import model.fighters.YWing;
 
 public class FighterFactoryTest {
 	Fighter fighter;
@@ -41,7 +49,20 @@ public class FighterFactoryTest {
 		assertNull(FighterFactory.createFighter("TIEbomber", ship));
 		assertNull(FighterFactory.createFighter("TIEIntercepto", ship));
 		assertNull(FighterFactory.createFighter("ZWing", ship));
+		try {
+			FighterFactory.createFighter(null, ship);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
+		try {
+			FighterFactory.createFighter("XWing", null);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
 	}
 	
+	//P5
+	@Test
+	public void testCreateNewFighter() {
+		assertNotNull(FighterFactory.createFighter("TIEAdvancedFighter", ship));	
+	}
 
 }

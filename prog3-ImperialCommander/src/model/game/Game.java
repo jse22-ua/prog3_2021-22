@@ -8,12 +8,15 @@ import java.util.Objects;
 
 import model.Side;
 import model.exceptions.InvalidSizeException;
+import model.game.score.*;
 
 public class Game {
 	private GameBoard gb;
 	private static final int BOARD_SIZE=10;
 	private IPlayer imperial;
 	private IPlayer rebel;
+	private Ranking<WinsScore> winranking;
+	private Ranking <DestroyedFightersScore> destroyedrank;
 	
 	public Game(IPlayer imperial, IPlayer rebel) {
 		Objects.requireNonNull(imperial);
@@ -22,28 +25,25 @@ public class Game {
 		this.rebel=rebel;
 		try {
 			gb= new GameBoard(BOARD_SIZE);
+			imperial.setBoard(gb);
+			rebel.setBoard(gb);
 		} catch (InvalidSizeException e) {
 			throw new RuntimeException("ERROR: there are a programming error");
 		}
+		
 	}
 
 	public GameBoard getGameBoard() {
 		return gb;
 	}
 	
-	private String infoPlayer(IPlayer one) {
-		StringBuilder information= new StringBuilder();
-		information.append(one.getGameShip().toString());
-		information.append("\n");
-		information.append(one.getGameShip().showFleet());
-		information.append("\n");
-		return information.toString();
-	}
-	
 	private void ShowInfo() {
-		gb.toString();
-		System.out.println(infoPlayer(imperial));
-		System.out.println(infoPlayer(rebel));	
+		System.out.print(gb.toString());
+		System.out.print("\n");
+		System.out.print(imperial.showShip());
+		System.out.print("\n");
+		System.out.print(rebel.showShip());	
+		System.out.print("\n");
 	}
 	
 	private void cleaning() {
@@ -51,34 +51,56 @@ public class Game {
 		rebel.purgeFleet();
 	}
 	
+	private void showRanking() {
+		winranking = null;
+		destroyedrank=null;
+		winranking = new Ranking<>();
+		destroyedrank = new Ranking<>();
+		winranking.addScore(imperial.getWinsScore());
+		winranking.addScore(rebel.getWinsScore());
+		destroyedrank.addScore(imperial.getDestroyedFightersScore());
+		destroyedrank.addScore(rebel.getDestroyedFightersScore());
+		
+		System.out.print("RANKING WINS: ");
+		System.out.print(winranking.toString() + "\n");
+		System.out.print("RANKING DESTROYED: ");
+		System.out.print(destroyedrank.toString()+ "\n");	
+		
+	}
 	public Side play() {
 		imperial.initFighters();
 		rebel.initFighters();
-		boolean keepPlaying;
+		boolean keepPlaying=true;
+		boolean exitImperial=false;
+		
 		do {
-			System.out.println("BEFORE IMPERIAL");
+			showRanking();
+			System.out.print("BEFORE IMPERIAL\n");
 			ShowInfo();
-			System.out.println("IMPERIAL("+ gb.numFighters(Side.IMPERIAL)+"):");
+			System.out.print("IMPERIAL("+ gb.numFighters(Side.IMPERIAL)+"):");
 			keepPlaying=imperial.nextPlay();
 			if(!keepPlaying) {
+				exitImperial=true;
 				break;
 			}
-			System.out.println("AFTER IMPERIAL, BEFORE REBEL");
+			System.out.print("AFTER IMPERIAL, BEFORE REBEL\n");
 			ShowInfo();
 			if(imperial.isFleetDestroyed()||rebel.isFleetDestroyed()) {
 				break;
 			}
-			System.out.println("REBEL("+ gb.numFighters(Side.REBEL)+"):");
+			System.out.print("REBEL("+ gb.numFighters(Side.REBEL)+"):");
 			keepPlaying=rebel.nextPlay();
 			if(!keepPlaying) {
 				break;
 			}
-			System.out.println("AFTER REBEL");
+			System.out.print("AFTER REBEL\n");
 			ShowInfo();
 			cleaning();
-		}while(imperial.isFleetDestroyed()||rebel.isFleetDestroyed());
+		}while(!imperial.isFleetDestroyed()&&!rebel.isFleetDestroyed());
 		cleaning();
-		if(imperial.isFleetDestroyed()) {
+		
+		showRanking();
+		if(imperial.isFleetDestroyed()||exitImperial||imperial.isFleetDestroyed()) {
 			return Side.REBEL;
 		}
 		else {

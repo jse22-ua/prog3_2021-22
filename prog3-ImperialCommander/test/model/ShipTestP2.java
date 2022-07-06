@@ -1,6 +1,12 @@
 package model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -12,6 +18,7 @@ import model.exceptions.NoFighterAvailableException;
 public class ShipTestP2 {
 
 	Ship ship;
+	Fighter fighter;
 	final String kFleet1 = "5/XWing:12/AWing:3/YWing:2/XWing";
 	final String kFleet2 = "40/XWing:10/AWing:30/YWing:25/XWing:35/TIEFighter:55/TIEBomber:45/TIEInterceptor:100/AWing";
 	final String kFleet3 = "40/XWing:10/AWing:30/YWing:25/AWing:35/XWing:55/TIEBomber:45/TIEBomber:100/AWing"+
@@ -50,6 +57,7 @@ public class ShipTestP2 {
 	@Before
 	public void setUp() throws Exception {
 		ship = new Ship("Tydirium", Side.REBEL);
+		//Fighter fighter = FighterFactory.createFighter("XWing", ship);
 	}
 
 	
@@ -91,7 +99,6 @@ public class ShipTestP2 {
 	@Test
 	public void testAddFighters1() {
 		ship.addFighters("1/XWing");
-		 
 		List<Fighter> lfleet = (List<Fighter>)ship.getFleetTest();
 		assertNotNull(lfleet);
 		assertEquals(1,lfleet.size());
@@ -148,7 +155,7 @@ public class ShipTestP2 {
 	/* Se comprueba que UpdateResults(1) incrementa wins en 1 */
 	@Test
 	public void testUpdateResults1() {
-		ship.updateResults(1);
+		ship.updateResults(1,fighter);
 		assertEquals(1,ship.getWins());
 		assertEquals(0, ship.getLosses());
 	}
@@ -157,7 +164,7 @@ public class ShipTestP2 {
 	/* Se comprueba que UpdateResults(-1) incrementa wins en 1 */
 	@Test
 	public void testUpdateResults2() {
-		ship.updateResults(-1);
+		ship.updateResults(-1,fighter);
 		assertEquals(1, ship.getLosses());
 		assertEquals(0, ship.getWins());
 	}
@@ -166,7 +173,7 @@ public class ShipTestP2 {
 	/* Se comprueba que UpdateResults(2) no modifica ni wins ni losses*/
 	@Test
 	public void testUpdateResults() {
-		ship.updateResults(2);
+		ship.updateResults(2,fighter);
 		assertEquals(0, ship.getLosses());
 		assertEquals(0, ship.getWins());
 	}
@@ -463,8 +470,8 @@ public class ShipTestP2 {
 	 */
 	@Test
 	public void testToString3() {
-		for (int i=0; i<30; i++) ship.updateResults(1);
-		for (int i=0; i<45; i++) ship.updateResults(-1);
+		for (int i=0; i<30; i++) ship.updateResults(1,fighter);
+		for (int i=0; i<45; i++) ship.updateResults(-1,fighter);
 		ship.addFighters(kFleet2);
 		compareLines (kToString2, ship.toString());
 	}
@@ -477,6 +484,29 @@ public class ShipTestP2 {
 		
 		ship.addFighters(kFleet3);
 		compareLines (kToString3, ship.toString());
+	}
+	
+	/* Test de comprobación de los parámetros null en Ship */
+	@Test
+	public void testRequireNonNull() throws NoFighterAvailableException {
+		
+		try {
+			new Ship(null, Side.REBEL);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
+		try {
+			new Ship("Tydirium", null);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
+		
+		try {
+			ship.addFighters(null);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
+		try {
+			ship.getFirstAvailableFighter(null);
+			fail("ERROR: Debió lanzar NullPointerException");
+		}catch (NullPointerException e) {}
 	}
 
 	/*************************************/
@@ -500,6 +530,7 @@ public class ShipTestP2 {
 			return null;
 		}	
 	}*/
+	
 	/*Destruye 'max' número de cazas del tipo 'type'. Si type="" destruye
 	 * los 'max' primeros de cualquier tipo.
 	 */

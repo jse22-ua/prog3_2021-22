@@ -29,10 +29,11 @@ public class GameBoard extends Board{
 	
 	public String toString() {
 		StringBuilder concatenation=new StringBuilder();
+		concatenation.append("  ");
 		for(int x=0;x<getSize();x++) {
 			concatenation.append(x);
 		}
-		concatenation.append("\n");
+		concatenation.append("\n  ");
 		for(int y=0;y<getSize();y++) {
 			concatenation.append("-");
 		}
@@ -40,11 +41,11 @@ public class GameBoard extends Board{
 		for(int i=0;i<getSize();i++) {
 			concatenation.append(i+"|");
 			for(int j=0;j<getSize();j++) {
-				if(board.get(new Coordinate(i,j))!=null) {
-					concatenation.append(board.get(new Coordinate(i,j)).getSymbol());
+				if(board.get(new Coordinate(j,i))!=null) {
+					concatenation.append(board.get(new Coordinate(j,i)).getSymbol());
 				}
 				else {
-				concatenation.append(" ");
+					concatenation.append(" ");
 				}
 			}
 			concatenation.append("\n");

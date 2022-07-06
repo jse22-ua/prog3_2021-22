@@ -119,6 +119,12 @@ public class Coordinate implements Comparable<Coordinate>{
 		if(Comparado==0) {
 				Comparado=y-otra.y;
 		}
+		if(Comparado>0) {
+			Comparado=1;
+		}
+		else if (Comparado<0) {
+			Comparado = -1;
+		}
 		return Comparado;
 	}
 	

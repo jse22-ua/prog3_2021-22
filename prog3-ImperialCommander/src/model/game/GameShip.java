@@ -5,6 +5,7 @@ import java.util.*;
 import model.*;
 import model.exceptions.*;
 import model.game.exceptions.WrongFighterIdException;
+import model.game.score.*;
 
 /**
  * Practica 4
@@ -13,11 +14,24 @@ import model.game.exceptions.WrongFighterIdException;
  */
 
 public class GameShip extends Ship{
+	private WinsScore winsScore;
+	private DestroyedFightersScore destroyedFightersScore;
 
 	public GameShip(String name, Side side) {
 		super(name, side);
+		winsScore = new WinsScore(side);
+		destroyedFightersScore = new DestroyedFightersScore(side);
 	}
 	
+	public WinsScore getWinsScore() {
+		return winsScore;
+	}
+
+	public DestroyedFightersScore getDestroyedFightersScore() {
+		return destroyedFightersScore;
+	}
+	
+
 	public boolean isFleetDestroyed() {
 		boolean destroyed=true;
 		if(fleet.size()==0) {
@@ -37,6 +51,9 @@ public class GameShip extends Ship{
 	private Fighter getFighter(int id) throws WrongFighterIdException {
 		Fighter f = null;
 		boolean founded=false;
+		if(fleet.isEmpty()) {
+			throw new WrongFighterIdException(id);
+		}
 		if(id>fleet.get(fleet.size()-1).getId()) {
 			throw new WrongFighterIdException(id);
 		}
@@ -78,6 +95,7 @@ public class GameShip extends Ship{
 		}
 		return ids;
 	}
+
 	
 	public void launch(int id,Coordinate c,Board b) throws WrongFighterIdException, FighterAlreadyInBoardException, OutOfBoundsException {
 		Objects.requireNonNull(c);
@@ -97,11 +115,19 @@ public class GameShip extends Ship{
 		Fighter f=getFighter(id);
 		try {
 			b.removeFighter(f);
+		} catch (FighterNotInBoardException e) {
+			
+		}finally{
 			int mejora = qty/2;
 			f.addAttack(mejora);
 			f.addShield(qty-mejora);
-		} catch (FighterNotInBoardException e) {
-			
+		}
+	}
+	public void updateResults(int r,Fighter f) {
+		super.updateResults(r, f);
+		if(r==1) {
+			winsScore.score(r);
+			destroyedFightersScore.score(f);
 		}
 	}
 }

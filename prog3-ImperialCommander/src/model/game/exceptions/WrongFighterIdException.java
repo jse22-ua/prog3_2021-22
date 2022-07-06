@@ -1,5 +1,11 @@
 package model.game.exceptions;
 
+/**
+ * Practica 5
+ * @author Judit Serrano Espinosa,74379872B
+ *
+ */
+
 public class WrongFighterIdException extends Exception{
 	
 	private int id;

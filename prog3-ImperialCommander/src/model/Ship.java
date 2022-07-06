@@ -91,7 +91,9 @@ public class Ship {
 			String[] partes=ships[i].split("\\/");
 			for(int j=0;j<Integer.parseInt(partes[0]);j++) {
 				Fighter f=FighterFactory.createFighter(partes[1],this);
-				fleet.add(f);
+				if(f!=null) {
+					fleet.add(f);
+				}
 			}
 		}
 	}
@@ -99,7 +101,7 @@ public class Ship {
 	/*
 	 * Contabiliza las perdidas y victorias dependiedo de si r es positivo o negativo
 	 */
-	public void updateResults(int r) {
+	public void updateResults(int r,Fighter f) {
 		if(r==-1) {
 			losses++;
 		}
@@ -151,13 +153,13 @@ public class Ship {
 		if(!fleet.isEmpty()) {
 			int i=0;
 			while(i!=fleet.size()) {
-				if(fleet.get(i).isDestroyed()) {
-					fleet.remove(i);
+					if(fleet.get(i).isDestroyed()) {
+						fleet.remove(i);
+					}
+					else {
+						i++;
+					}
 				}
-				else {
-					i++;
-				}
-			}
 		}
 	}
 	/*
@@ -166,13 +168,15 @@ public class Ship {
 	public String showFleet() {
 		StringBuilder concatenation= new StringBuilder();
 		for(Fighter ship : fleet) {
-			if(ship.isDestroyed()) {
-				concatenation.append(ship+" (X)");
-				concatenation.append("\n");
-			}
-			else {
-				concatenation.append(ship);
-				concatenation.append("\n");
+			if(ship!=null) {
+				if(ship.isDestroyed()) {
+					concatenation.append(ship+" (X)");
+					concatenation.append("\n");
+				}
+				else {
+					concatenation.append(ship);
+					concatenation.append("\n");
+				}
 			}
 		}
 		return concatenation.toString();
@@ -185,13 +189,15 @@ public class Ship {
 		List<String> tipos= new ArrayList<>();
 		
 		for(int i=0;i<fleet.size();i++) {
-			if(tipos.isEmpty()) {
+			if(tipos.isEmpty()&&fleet.get(i)!=null) {
 				tipos.add(fleet.get(i).getType());
 			}
-			else if(!(tipos.get(tipos.size()-1)).equals(fleet.get(i).getType())) {
-				if(!tipos.contains(fleet.get(i).getType())) {
-					tipos.add(fleet.get(i).getType());
+			else if(tipos.size()>0) {
+				if(!(tipos.get(tipos.size()-1)).equals(fleet.get(i).getType())) {
+					if(!tipos.contains(fleet.get(i).getType())) {
+						tipos.add(fleet.get(i).getType());
 				}
+			}
 			}
 		}
 		for(String tipo: tipos) {
